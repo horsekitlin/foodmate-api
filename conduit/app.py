@@ -1,6 +1,6 @@
 from flask import Flask
 from conduit.settings import ProdConfig
-from conduit.extensions import cors
+from conduit.extensions import cors, db, bcrypt
 from conduit.resources import user
 
 def register_blueprints(app):
@@ -14,7 +14,17 @@ def register_blueprints(app):
     # app.register_blueprint(profile.views.blueprint)
     # app.register_blueprint(articles.views.blueprint)
 
+def register_extensions(app):
+    """Register Flask extensions."""
+    bcrypt.init_app(app)
+    # cache.init_app(app)
+    db.init_app(app)
+    # migrate.init_app(app, db)
+    # jwt.init_app(app)
+
 def create_app(config_object=ProdConfig):
   app = Flask(__name__.split('.')[0])
+  app.config.from_object(config_object)
   register_blueprints(app)
+  register_extensions((app))
   return app
