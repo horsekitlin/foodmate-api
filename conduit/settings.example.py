@@ -26,7 +26,7 @@ class Config(object):
 class ProdConfig(Config):
     ENV = 'prod'
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://linus:1260@wayyeh.com:3306/foodmate"
+    SQLALCHEMY_DATABASE_URI = ""
 
 
 class DevConfig(Config):
@@ -35,12 +35,12 @@ class DevConfig(Config):
     DB_NAME = 'dev.db'
     # Put the db file in project root
     DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://linus:1260@wayyeh.com:3306/foodmate"
+    SQLALCHEMY_DATABASE_URI = ""
 
 
 class TestConfig(Config):
     TESTING = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://linus:1260@wayyeh.com:3306/foodmate"
+    SQLALCHEMY_DATABASE_URI = ""
     # For faster tests; needs at least 4 to avoid "ValueError: Invalid rounds"
     BCRYPT_LOG_ROUNDS = 4
