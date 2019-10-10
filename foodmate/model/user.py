@@ -22,11 +22,16 @@ class User(Base):
     lastSignInTime = db.Column(db.String(20)) # 上次登入時間
 
     def __repr__(self):
-        return "localId={}, email={}, phone_number={}".format(
-            self.localId, self.email, self.phone_number
+        return "uid={}, email={}, phone_number={}".format(
+            self.uid, self.email, self.phone_number
         )
     
+    @staticmethod
     def get_by_uid(uid):
         return db.session.query(User).filter(
             User.uid == uid
         ).first()
+    
+    @staticmethod
+    def get_user_list():
+        return db.session.query(User).all()

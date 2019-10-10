@@ -73,22 +73,15 @@ class UserList(Resource):
 
     def get(self):
         """
-        Get all users
+        取得用戶列表
         """
-        user_list = adminAuth.list_users().iterate_all()
-        print (user_list)
+        user_list = UserModel.get_user_list()
+        print(user_list)
         if user_list:
-            count = 0
-            user_no = []
-            user_uid = []
             for user in user_list:
-                count += 1
-                print("user"+str(count)+":"+user.uid)
-                user_no.append("user"+str(count))
-                user_uid.append(user_uid)
-            return {
-                "message":"success"
-            }
+                return {
+                    "user_list": [u.as_dict() for u in user_list]
+                        }
 
 class SendEmail(Resource):
 
