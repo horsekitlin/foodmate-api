@@ -1,4 +1,5 @@
 from foodmate import app, firebaseDb, firebase
+from foodmate.model.user import User as UserModel
 from flask_restplus import Resource, reqparse, fields, marshal_with
 from firebase_admin import auth as adminAuth
 import requests, urllib3
@@ -20,13 +21,6 @@ def min_length_str(min_length):
         raise Exception("String must be at least %i characters long" % min_length)
     return validate
 
-class userModel(object):
-    {
-    "email": fields.String,
-    "password": fields.String
-    }
-    
-
 class Auth(Resource):
 
     parser = reqparse.RequestParser()
@@ -38,7 +32,6 @@ class Auth(Resource):
     )
 
 
-    @marshal_with(userModel)
     def post(self):  # 1.1 POST /auth/login
         """
         User Login
@@ -49,12 +42,32 @@ class Auth(Resource):
             userLogin = pyAuth.sign_in_with_email_and_password(jsonData["email"], jsonData["password"])
             return {
                 "message":"login succssed",
-                "userUid":userLogin
+                "userInfo":userLogin
             }
         except requests.exceptions.HTTPError:
             return {
                 "message":"OOPS! Somthing Wrong~~"
             }
+    
+
+    def get(self, id_token):   #1.6 /auth/id_token
+        """
+        Get Uid
+        """
+        print(id_token)
+        try:
+            find_user = pyAuth.get_account_info(id_token)
+            type(find_user)
+            return {
+                "message":"Susscced",
+                "userInfo":{
+                    "user":find_user["users"]
+                }
+            }
+        except requests.exceptions.HTTPError:
+            return {
+                    "message":"INVALID_ID_TOKEN",
+                }
 
 class UserList(Resource):
 
@@ -140,14 +153,29 @@ class User(Resource):
                     password = jsonData["password"],
                     phone_number = jsonData["phone_number"]
                     )
-                print(newUser)
+                getUser = adminAuth.get_user_by_email(newUser.email)
+                userInfo = UserModel(
+                    uid = getUser.uid,
+                    email = getUser.email,
+                    phone_number = getUser.phone_number,
+                    displayName = getUser.display_name,
+                    gender = "0",
+                    soulFood = "0",
+                    disabled = getUser.disabled,
+                    isAlbum = False,
+                    isCamera = False,
+                    isNotification = False,
+                    createTime = getUser.user_metadata.creation_timestamp,
+                    lastSignInTime = getUser.user_metadata.last_sign_in_timestamp
+                )
+                UserModel.add(userInfo)
                 return {
                     "message":"create suscced",
-                    "user":
-                    {
-                    "uid":newUser.uid,
-                    "phone_number":newUser.phone_number,
-                    "email":newUser.email
+                    "userInfo":{
+                        "uid":userInfo.uid,
+                        "email":userInfo.email,
+                        "phone_number":userInfo.phone_number,
+                        "createTime":userInfo.createTime
                     }
                     },201
             except adminAuth.PhoneNumberAlreadyExistsError:
@@ -211,20 +239,26 @@ class User(Resource):
                     "message":"User Not Found",
                 }
 
-    def get(self, id_token):   #2.5 /user/uid
+    def get(self, uid):   #2.5 /user/uid
         """
         Get Member Detail
         """
         # jsonData = User.parser.parse_args()
-        print(id_token)
+        print(uid)
         try:
-            find_user = pyAuth.get_account_info(id_token)
-            type(find_user)
-            return {
-                "message":"Susscced",
-                "userInfo":find_user
-            }
-        except requests.exceptions.HTTPError:
-            return {
-                    "message":"INVALID_ID_TOKEN",
+            find_user = adminAuth.get_user(uid) #檢查 firebase 是否有此 uid
+            if find_user: 
+                getUser = UserModel.get_by_uid(find_user.uid) # 從 Mysql 取得會員資料
+                print(getUser.as_dict())
+                return {
+                    "message":"Susscced",
+                    "userInfo":getUser.as_dict()
                 }
+        except adminAuth.UserNotFoundError:
+            return {
+                    "message":"User ID does not exist."
+                }
+        except ValueError:
+            return {
+                "message":"User ID is None, empty or malformed."
+            }

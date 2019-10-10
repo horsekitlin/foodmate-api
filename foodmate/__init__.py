@@ -26,6 +26,7 @@ from instance.config import app_config
 # 初始化 pyrebase
 firebase = pyrebase.initialize_app(app_config["development"].Config)
 
+from foodmate.model.user import User as UserModel
 from foodmate.resource.user import UserList, User, Auth, SendEmail
 
 def create_app(config_name = "development"):
@@ -40,12 +41,13 @@ def create_app(config_name = "development"):
     # Authentication API
     authNamespace = api.namespace("auth", description = "Authentication")
     authNamespace.add_resource(Auth, "/login", methods = ["POST"])
+    authNamespace.add_resource(Auth, "/<string:id_token>", methods = ["GET"])
     # Manage users API
     userNamespace = api.namespace("user", description = "Manage users")
     userNamespace.add_resource(UserList, "/all_users", methods = ["GET"])
     userNamespace.add_resource(User, "/<string:uid>", methods = ["PUT", "DELETE"])
     userNamespace.add_resource(User, "/create", methods = ["POST"])
     userNamespace.add_resource(SendEmail, "/forgotPassword", methods = ["POST"])
-    userNamespace.add_resource(User, "/<string:id_token>", methods = ["GET"])
+    userNamespace.add_resource(User, "/<string:uid>", methods = ["GET"])
 
     return flask_app

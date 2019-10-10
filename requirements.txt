@@ -36,6 +36,7 @@ protobuf==3.9.2
 pyasn1==0.4.7
 pyasn1-modules==0.2.6
 pycryptodome==3.4.3
+PyMySQL==0.9.3
 Pyrebase==3.0.27
 pyrsistent==0.15.4
 python-dateutil==2.8.0
