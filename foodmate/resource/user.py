@@ -56,14 +56,17 @@ class Auth(Resource):
         """
         print(id_token)
         try:
-            find_user = pyAuth.get_account_info(id_token)
-            type(find_user)
+            usersResult = pyAuth.get_account_info(id_token)
+            users = usersResult["users"]
+            user = users[0]
+            print(user)
             return {
                 "message":"Susscced",
                 "userInfo":{
-                    "user":find_user["users"]
+                    "uid":user["localId"]
                 }
             }
+
         except requests.exceptions.HTTPError:
             return {
                     "message":"INVALID_ID_TOKEN",
