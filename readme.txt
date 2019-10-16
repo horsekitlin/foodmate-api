@@ -16,5 +16,6 @@ pip install -r requirements.txt
 
 Step4 flask run:
 export FLASK_APP="foodmate:create_app()"
+export DATABASE_URL="mysql+pymysql://your_data_base"
 export FLASK_ENV=development
 flask run
