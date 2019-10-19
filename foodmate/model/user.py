@@ -1,7 +1,10 @@
-from foodmate import db
+from foodmate import db, firebase
 from datetime import datetime, timedelta
 from flask import current_app
 from foodmate.model.base import Base
+from firebase_admin import auth as adminAuth
+
+pyAuth = firebase.auth()
 
 class User(Base):
     uid = db.Column(db.String(64), primary_key = True) # Uid
@@ -20,6 +23,7 @@ class User(Base):
     isAlbum = db.Column(db.Boolean) # 相簿權限 True = 啟用, False = 停用
     createTime = db.Column(db.String(20)) # 創建時間
     lastSignInTime = db.Column(db.String(20)) # 上次登入時間
+    
 
     def __repr__(self):
         return "uid={}, email={}, phone_number={}".format(
@@ -35,3 +39,20 @@ class User(Base):
     @staticmethod
     def get_user_list():
         return db.session.query(User).all()
+    
+    @staticmethod
+    def authenticate(email, password):
+        try:
+            userLogin = pyAuth.sign_in_with_email_and_password(email,password)
+            print(userLogin)
+            return userLogin
+        except requests.exceptions.HTTPError:
+            return {
+                "message":"OOPS! Somthing Wrong~~"
+            }
+
+    @staticmethod
+    def identity(payload):
+        uid = payload["identity"]
+        user = User.get_by_uid(uid)
+        return user

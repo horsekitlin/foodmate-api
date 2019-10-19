@@ -7,6 +7,7 @@ from firebase_admin import auth
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import pyrebase
+from flask_jwt import JWT
 
 from datetime import datetime
 
@@ -29,6 +30,8 @@ firebase = pyrebase.initialize_app(app_config["development"].Config)
 from foodmate.model.user import User as UserModel
 from foodmate.resource.user import UserList, User, Auth, SendEmail
 
+jwt = JWT(None, UserModel.authenticate, UserModel.identity)
+
 def create_app(config_name = "development"):
 
     flask_app = Flask(__name__, instance_relative_config = True)
@@ -36,11 +39,12 @@ def create_app(config_name = "development"):
 
     db.init_app(flask_app)
     migrate = Migrate(flask_app,db)
+    jwt.init_app(flask_app)
 
     api = Api(app = flask_app, version="1.0", prefix="/v1", title="Foodmate-API", description="foodmate api")
     # Authentication API
     authNamespace = api.namespace("auth", description = "Authentication")
-    authNamespace.add_resource(Auth, "/login", methods = ["POST"])
+    authNamespace.add_resource(User, "/login", methods = ["POST"])
     authNamespace.add_resource(Auth, "/<string:id_token>", methods = ["GET"])
     # Manage users API
     userNamespace = api.namespace("user", description = "Manage users")
