@@ -44,3 +44,50 @@ Extends From [github](https://github.com/aszx87410/nodejs_simple_chatroom)
 [PM2](https://pm2.keymetrics.io/docs/usage/quick-start/)
 
 [PM2 console](https://pm2.io/)
+
+## Structor
+
+```
+.
+├── Procfile
+├── README.md
+├── app.js
+├── package.json
+├── schemas
+│   └── init_table.sql
+├── src
+│   ├── helpers
+│   │   └── response.js
+│   ├── models
+│   │   └── mysqlConnectionPool.js
+│   └── routes
+│       └── roomRouter.js
+└── yarn.lock
+```
+
+### app.js
+
+起始的 檔案
+
+### models
+
+資料庫連結檔案
+
+命名通常是 `xxxQueryies.js`
+
+### helpers
+
+元件庫
+
+### routes
+
+所有的routes
+
+RESTFUL API 對應
+
+* GET - 取資料
+* POST - 新增資料
+* PUT - 修改整筆資料
+* PATCH - 修改資料中的某些欄位
+* DELETE - 刪除資料 
+
