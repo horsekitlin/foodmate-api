@@ -42,3 +42,5 @@ Extends From [github](https://github.com/aszx87410/nodejs_simple_chatroom)
 ## deploy develop service
 
 [PM2](https://pm2.keymetrics.io/docs/usage/quick-start/)
+
+[PM2 console](https://pm2.io/)
