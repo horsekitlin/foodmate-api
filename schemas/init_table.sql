@@ -1,55 +1,34 @@
-CREATE DATABASE IF NOT EXISTS `foodmate`
+CREATE DATABASE IF NOT EXISTS `foodmate_dev`
 CHARACTER SET utf8
 COLLATE utf8_unicode_ci;
 
 SET SQL_MODE='ALLOW_INVALID_DATES';
 
-USE `foodmate`;
+USE `foodmate_dev`;
 
 
 /******************************************
-* 1: Create tables for chat rooms
+* 1: Create tables for user
 ******************************************/
 
-CREATE TABLE IF NOT EXISTS `rooms`
+CREATE TABLE IF NOT EXISTS `users`
 (
-    `id`  serial COMMENT 'room serial id',
-    `title` varchar(12) NOT NULL,
-    `description`  varchar(256) NOT NULL,
+    `uid`  serial COMMENT 'user serial id',
+    `email` VARCHAR(128) NOT NULL,
+    `password_hash`  VARCHAR(256) NOT NULL,
+    `phone_number`  VARCHAR(256) NOT NULL,
+    `display_name`  VARCHAR(256) NOT NULL,
+    `gender`  VARCHAR(256) NOT NULL,
+    `job_title`  VARCHAR(256) NOT NULL,
+    `soul_food`  VARCHAR(256) NOT NULL,
+    `info`  VARCHAR(256) NOT NULL,
+    `photo_url`  VARCHAR(256) NOT NULL,
+    `is_notification`  TINYINT DEFAULT 0,
+    `is_camera`  TINYINT DEFAULT 0,
+    `is_album`  TINYINT DEFAULT 0,
+    `rate`  TINYINT DEFAULT 0,
+    `disabled`  TINYINT DEFAULT 0,
     `created_at`    timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     `updated_at`    timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`uid`)
 ) ENGINE = InnoDB COLLATE = 'utf8_unicode_ci';
-
-/******************************************
-* 2: Create tables for chat members
-******************************************/
-
-CREATE TABLE IF NOT EXISTS `room_members`
-(
-    `id`  serial COMMENT 'member mapping serial id',
-    `member_id` int(12) NOT NULL,
-    `room_id`  int(12) NOT NULL,
-    `stat` enum('actived', 'frozen', 'removed', 'leave') DEFAULT 'actived',
-    `created_at`    timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    `updated_at`    timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB COLLATE = 'utf8_unicode_ci';
-
-
-/******************************************
-* 3: Create tables for chat messages
-******************************************/
-
-CREATE TABLE IF NOT EXISTS `room_messages`
-(
-    `id`  serial COMMENT 'message mapping serial id',
-    `room_id`  int(12) COMMENT 'message mapping serial id',
-    `from` int(12) NOT NULL COMMENT 'sender id',
-    `to`  int(12) NOT NULL COMMENT 'reciever id',
-    `stat` enum('actived', 'frozen', 'removed', 'leave') DEFAULT 'actived',
-    `created_at`    timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    `updated_at`    timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB COLLATE = 'utf8_unicode_ci';
-

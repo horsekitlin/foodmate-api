@@ -1,0 +1,17 @@
+### 
+@LOCAL = http://localhost:3000/v1/
+@DEV = 
+@domain = {{LOCAL}}
+@contentType = application/json
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTE5MCwiaWF0IjoxNTY1MjU4Mzg4fQ.tMjE8nIG-4Cbj3M4OKa6IgExzZ9sZPAmhDSxYHhqC-I
+
+### Login
+POST {{domain}}login
+Content-Type: {{contentType}}
+
+{
+  "email": "tomas@aaa.bbb",
+  "password": "a12345678"
+}
+
+###
