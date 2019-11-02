@@ -13,15 +13,10 @@ const loginRequestShape = yup.object().shape({
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
-  console.log(1);
   try {
-    console.log(2);
     await loginRequestShape.validate(req.body);
-    console.log(3);
     passport.authenticate('local', (err, user) => {
-      console.log(4, err);
       if (err) return responseErrWithMsg(res, err.message);
-      console.log(5);
       const signInfo = pick(user, ['uid']);
       const token = generateToken(signInfo);
 
@@ -31,7 +26,6 @@ router.post('/', async (req, res, next) => {
       });
     })(req, res, next);
   } catch (error) {
-    console.log("TCL: error", error)
     return responseErrWithMsg(res, error.message);
   }
 });

@@ -15,13 +15,11 @@ mysql.createPool({
   timezone				    : 'utc',
 }).then(p => {
   pool = p;
-  console.log("TCL: pool.getConnection", pool.getConnection)
   return p;
 });
 
 module.exports.query = async sql => {
   const connection = await pool.getConnection();
-  console.log("TCL: connection", connection)
   try {
     const result = await connection.query(sql);
     connection.release();

@@ -26,7 +26,6 @@ passport.use(
       passwordField: 'password'
     },
     async (email, password, done) => {
-    console.log("TCL: email", email)
 
       const user = await userQueries.getUserByEmail(email, true);
       const {validated} = validateUserAndPassword(user, password);
@@ -35,7 +34,6 @@ passport.use(
         const notfoundError = new Error(message);
         return done(notfoundError, null, {message});
       }
-      console.log(4);
       return done(null, user);
     }
   )
