@@ -35,7 +35,7 @@ const userRouter = require('./src/routes/userRouter');
 const roomRouter = require('./src/routes/roomRouter');
 
 app.use('/v1/login', authRouter);
-app.use('/v1/users', userRouter);
+app.use('/v1/users', userRouter);
 app.use('/rooms', roomRouter);
 
 

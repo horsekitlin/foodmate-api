@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const yup = require('yup');
+const { responseErrWithMsg } =require('../helpers/response');
+const { parseBooleanToInt, saltHashPassword } = require("../helpers/utils");
+const { createUser } = require("../models/userQueries");
 const { responseOk } = require('../helpers/response');
-const {createUser} = require("../models/userQueries");
 
 const createRequestShape = yup.object().shape({
   email: yup.string().required('email 不可為空'),
@@ -26,7 +28,18 @@ router.post('/created', async (req, res) => {
     await createRequestShape.validate(req.body);
     const { is_album, is_camera, is_notification, disabled, password, ...payload } = req.body;
 
-    responseOk(res, { success: true });
+    const result = await createUser({
+      ...payload,
+      is_album: parseBooleanToInt(is_album),
+      is_camera: parseBooleanToInt(is_camera),
+      is_notification: parseBooleanToInt(is_notification),
+      hash_password: saltHashPassword(password),
+    });
+
+    if (result.constructor.name === 'OkPacket') {
+      return responseOk(res, { success: true });  
+    }
+    return responseErrWithMsg(res, "建立使用者失敗");
   } catch (error) {
     return responseErrWithMsg(res, error.message);
   }
