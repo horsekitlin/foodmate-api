@@ -11,13 +11,17 @@ module.exports.getUserByEmail = (email, withPasswordField = false) => {
       users
     WHERE email=${email}
   `;
-  return query(sql);
+  return query(sql).then(([user]) => {
+    return withPasswordField ? user : { ...user, password_hash: undefined };
+  });
 };
 
 module.exports.createUser = (payload) => {
+
+  console.log("TCL: module.exports.createUser -> payload", payload, 4)
   const {
     email,
-    password,
+    password_hash,
     phone_number,
     display_name,
     gender,
@@ -25,19 +29,19 @@ module.exports.createUser = (payload) => {
     soul_food,
     info,
     photo_url,
-    rage,
+    rate,
     is_notification,
     is_camera,
     is_album,
     disabled
   } = payload;
 
-  const hash_password = saltHashPassword(password);
   const sql = SQL`
     INSERT INTO
+      users
     (
       email,
-      hash_password,
+      password_hash,
       phone_number,
       display_name,
       gender,
@@ -45,14 +49,14 @@ module.exports.createUser = (payload) => {
       soul_food,
       info,
       photo_url,
-      rage,
+      rate,
       is_notification,
       is_camera,
       is_album,
       disabled
     ) VALUES (
       ${email},
-      ${password},
+      ${password_hash},
       ${phone_number},
       ${display_name},
       ${gender},
@@ -60,7 +64,7 @@ module.exports.createUser = (payload) => {
       ${soul_food},
       ${info},
       ${photo_url},
-      ${rage},
+      ${rate},
       ${is_notification},
       ${is_camera},
       ${is_album},
@@ -68,5 +72,41 @@ module.exports.createUser = (payload) => {
     )
   `;
 
+  const qu = `
+  INSERT INTO
+    users
+  (
+    email,
+    password_hash,
+    phone_number,
+    display_name,
+    gender,
+    job_title,
+    soul_food,
+    info,
+    photo_url,
+    rate,
+    is_notification,
+    is_camera,
+    is_album,
+    disabled
+  ) VALUES (
+    ${email},
+    ${password_hash},
+    ${phone_number},
+    ${display_name},
+    ${gender},
+    ${job_title},
+    ${soul_food},
+    ${info},
+    ${photo_url},
+    ${rate},
+    ${is_notification},
+    ${is_camera},
+    ${is_album},
+    ${disabled}
+  )
+`;
+  console.log("TCL: module.exports.createUser -> qu", qu)
   return query(sql);
 };

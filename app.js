@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const Express = require('express');
 const httpModule = require('http');
 const logger = require('morgan');

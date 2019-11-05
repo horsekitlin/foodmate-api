@@ -12,9 +12,11 @@ const {AUTH_SECRET} = process.env;
 
 const validateUserAndPassword = (user, password) => {
   if(isEmpty(user)) return {validated: false};
+  console.log("TCL: validateUserAndPassword -> user", user.password_hash)
 
   const hashPassword = saltHashPassword(password);
-  if(hashPassword !== user.password) return {validated: false};
+  console.log("TCL: validateUserAndPassword -> hashPassword", hashPassword)
+  if(hashPassword !== user.password_hash) return {validated: false};
 
   return {validated: true};
 }

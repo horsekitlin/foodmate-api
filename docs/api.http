@@ -25,10 +25,10 @@ Content-Type: {{contentType}}
   "job_title": "job title",
   "soul_food": "rice",
   "info": "info",
-  "photo_url": "https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwi7-5D-98vlAhUwzIsBHSVXAogQjRx6BAgBEAQ&url=%2Furl%3Fsa%3Di%26source%3Dimages%26cd%3D%26ved%3D2ahUKEwj16pn698vlAhUGyIsBHS7aABsQjRx6BAgBEAQ%26url%3Dhttps%253A%252F%252Fhatchful.shopify.com%252F%26psig%3DAOvVaw1Mmtd-707BYhvrSRnSW_VT%26ust%3D1572798181464515&psig=AOvVaw1Mmtd-707BYhvrSRnSW_VT&ust=1572798181464515",
+  "photo_url": "https://cdn.shopifycloud.com/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png",
   "is_notification": false,
   "is_camera": false,
   "is_album": false,
-  "rage": 5,
+  "rate": 5,
   "disabled": false
 }
