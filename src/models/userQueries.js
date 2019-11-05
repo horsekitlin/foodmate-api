@@ -11,7 +11,9 @@ module.exports.getUserByEmail = (email, withPasswordField = false) => {
       users
     WHERE email=${email}
   `;
-  return query(sql);
+  return query(sql).then(([user]) => {
+    return withPasswordField ? user : { ...user, password_hash: undefined };
+  });
 };
 
 module.exports.createUser = (payload) => {
