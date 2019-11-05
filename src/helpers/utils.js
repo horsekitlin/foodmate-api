@@ -5,6 +5,10 @@ const { SALT_SECRET, AUTH_SECRET } = process.env;
 
 module.exports.debugLog = msg => console.log(`[debug] ${msg}`);
 
+module.exports.parseBooleanToInt = (bool) => {
+  return Number(bool);
+};
+
 const sha512 = function(password, salt) {
   const hash = crypto.createHmac(
     'sha512',

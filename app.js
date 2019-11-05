@@ -31,8 +31,11 @@ app.use(passport.session());
 // }));
 
 const authRouter = require('./src/routes/authRouter');
+const userRouter = require('./src/routes/userRouter');
 const roomRouter = require('./src/routes/roomRouter');
+
 app.use('/v1/login', authRouter);
+app.use('/v1/users', userRouter);
 app.use('/rooms', roomRouter);
 
 
