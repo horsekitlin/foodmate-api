@@ -6,7 +6,7 @@ const yup = require('yup');
 const { responseOk, responseErrWithMsg } = require('../helpers/response');
 
 const loginRequestShape = yup.object().shape({
-  email: yup.string().required('email 不可為空'),
+  phone_number: yup.string().required('phone_number 不可為空'),
   password: yup.string().required('password 不可為空')
 });
 
@@ -15,14 +15,14 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
   try {
     await loginRequestShape.validate(req.body);
-    passport.authenticate('local', (err, user) => {
+    passport.authenticate('local', (err, {password_hash, ...user}) => {
       if (err) return responseErrWithMsg(res, err.message);
       const signInfo = pick(user, ['uid']);
       const token = generateToken(signInfo);
 
       return responseOk(res, {
         success: true,
-        data: { token, actor: user.actor, permissions: user.permissions }
+        data: { token, user }
       });
     })(req, res, next);
   } catch (error) {

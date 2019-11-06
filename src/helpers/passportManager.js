@@ -12,10 +12,8 @@ const {AUTH_SECRET} = process.env;
 
 const validateUserAndPassword = (user, password) => {
   if(isEmpty(user)) return {validated: false};
-  console.log("TCL: validateUserAndPassword -> user", user.password_hash)
 
   const hashPassword = saltHashPassword(password);
-  console.log("TCL: validateUserAndPassword -> hashPassword", hashPassword)
   if(hashPassword !== user.password_hash) return {validated: false};
 
   return {validated: true};
@@ -24,12 +22,12 @@ const validateUserAndPassword = (user, password) => {
 passport.use(
   new LocalStrategy(
     {
-      usernameField: 'email',
+      usernameField: 'phone_number',
       passwordField: 'password'
     },
-    async (email, password, done) => {
+    async (phone_number, password, done) => {
 
-      const user = await userQueries.getUserByEmail(email, true);
+      const user = await userQueries.getUserByPhone(phone_number, true);
       const {validated} = validateUserAndPassword(user, password);
       if(!validated) {
         const message = '使用者不存在或密碼錯誤';
