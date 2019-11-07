@@ -227,12 +227,15 @@ Authorization: token
 
 
 {
-  logo: string,
-  name: string,
-  created_at: date string,
-  tags: array,
-  owner_id: number,
-  owner_name: string,
+  success: boolean,
+  data: {
+    logo: string,
+    name: string,
+    created_at: date string,
+    tags: array,
+    owner_id: number,
+    owner_name: string
+  }
 }
 
 ## 活動詳情
@@ -252,21 +255,24 @@ Authorization: token
 ### Response
 
 {
-  event_id: number,
-  logo: string,
-  name: string,
-  event_date: date string,
-  validate_date: date string,
-  tags: array(string),
-  owner_id: number,
-  owner_name: string,
-  max_member: number,
-  member_count: number,
-  payment_method: string,
-  budget: number,
-  google_json: json string,
-  address: string,
-  description: string
+  success: boolean,
+  data: {
+    event_id: number,
+    logo: string,
+    name: string,
+    event_date: date string,
+    validate_date: date string,
+    tags: array(string),
+    owner_id: number,
+    owner_name: string,
+    max_member: number,
+    member_count: number,
+    payment_method: string,
+    budget: number,
+    google_json: json string,
+    address: string,
+    description: string
+  }
 }
 
 ##  參加活動
