@@ -48,5 +48,5 @@ http.listen(process.env.PORT || 3000, function () {
 
 //Nodejs 奇怪的錯誤防止Process 死掉
 process.on('uncaughtException', function (err) {
-  console.log(err);
+  (err);
 })

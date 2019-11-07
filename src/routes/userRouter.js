@@ -23,7 +23,7 @@ const createRequestShape = yup.object().shape({
   disabled: yup.boolean(),
 });
 
-router.post('/created', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     await createRequestShape.validate(req.body);
     const {
