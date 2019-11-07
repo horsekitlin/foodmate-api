@@ -1,7 +1,7 @@
 ### 
 @domain = http://localhost:3000/v1/
 @contentType = application/json
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTE5MCwiaWF0IjoxNTY1MjU4Mzg4fQ.tMjE8nIG-4Cbj3M4OKa6IgExzZ9sZPAmhDSxYHhqC-I
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU3MzE0NDEzMX0.j2IO9B6RN_HYWCltvs6u9uaxjUo4aI6BOH4_EzGkbjg
 
 ### Login
 POST http://localhost:3000/v1/login
@@ -32,3 +32,50 @@ Content-Type: {{contentType}}
   "rate": 5,
   "disabled": false
 }
+
+### Create Event
+POST http://localhost:3000/v1/events
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "logo": "https://cdn.shopifycloud.com/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png",
+  "description": "description",
+  "name": "event name",
+  "address": "台北市南港路三段",
+  "payment_method": "PAY_BY_SELF",
+  "event_date": "2019-12-31 00:00:00",
+  "validate_date": "2019-12-30 00:00:00",
+  "tags": ["HELLO"],
+  "google_json": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "stroke": "#ff0000",
+          "stroke-width": 10,
+          "stroke-opacity": 0.5
+        },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              121.56351685523987,
+              25.03585799721269
+            ],
+            [
+              121.56548023223877,
+              25.0358093932627
+            ]
+          ]
+        }
+      }
+    ]
+  },
+  "owner_id": 1,
+  "budget": 100,
+  "max_member": 10,
+  "member_count": 0
+}
+###

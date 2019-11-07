@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `events`
     `description` text NOT NULL,
     `name`  VARCHAR(128) NOT NULL,
     `address`  VARCHAR(128) NOT NULL,
-    `payment_method`  VARCHAR(64) NOT NULL,
+    `payment_method`  VARCHAR(64) NOT NULL COMMENT 'PAY_BY_SELF',
     `event_date` TIMESTAMP NOT NULL,
     `validate_date` TIMESTAMP NOT NULL,
     `tags`  JSON NOT NULL,

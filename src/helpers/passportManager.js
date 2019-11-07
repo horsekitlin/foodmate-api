@@ -39,14 +39,14 @@ passport.use(
   )
 );
 
-
+console.log("TCL: AUTH_SECRET", AUTH_SECRET)
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   secretOrKey   : AUTH_SECRET
 },
 async function (jwtPayload, done) {
-  const {id} = jwtPayload;
-  const user = await backendUserQueries.getBackendUserById(id);
+  const {uid} = jwtPayload;
+  const user = await userQueries.getUserBy(uid);
   if(isEmpty(user)) done(new Error('無效的 token'));
 
   done(null, user, { message: 'Logged In Successfully' });
@@ -62,4 +62,4 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-module.exports.jwtAuthorizationMiddleware = passport.authenticate('jwt', {session: true});
+module.exports.jwtAuthorizationMiddleware = passport.authenticate('jwt', {session: false});

@@ -28,6 +28,7 @@ module.exports.saltHashPassword = userpassword => {
 };
 
 module.exports.generateToken = user => jwt.sign(user, AUTH_SECRET);
+console.log("TCL: AUTH_SECRET", AUTH_SECRET)
 
 module.exports.getTotalPage = (total_count, size) => {
   return Math.ceil(total_count / size); 

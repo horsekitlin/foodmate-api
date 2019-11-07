@@ -2,6 +2,26 @@ const SQL = require('sql-template-strings');
 const { saltHashPassword } = require("../helpers/utils");
 const { query } = require('./mysqlConnectionPool');
 
+const parseUser = user => ({
+  ...user,
+  is_notification: Boolean(user.is_notification),
+  is_camera: Boolean(user.is_camera),
+  is_album: Boolean(user.is_album),
+  disabled: Boolean(user.disabled),
+});
+
+module.exports.getUserBy = (uid, withPasswordField = false) => {
+  const sql = SQL`
+    SELECT
+      *
+    FROM
+      users
+    WHERE uid=${uid}
+  `;
+  return query(sql).then(([user]) => {
+    return withPasswordField ? user : { ...user, password_hash: undefined };
+  }).then(parseUser);
+};
 
 module.exports.getUserByPhone = (phone_number, withPasswordField = false) => {
   const sql = SQL`
@@ -13,13 +33,7 @@ module.exports.getUserByPhone = (phone_number, withPasswordField = false) => {
   `;
   return query(sql).then(([user]) => {
     return withPasswordField ? user : { ...user, password_hash: undefined };
-  }).then(user => ({
-    ...user,
-    is_notification: Boolean(user.is_notification),
-    is_camera: Boolean(user.is_camera),
-    is_album: Boolean(user.is_album),
-    disabled: Boolean(user.disabled),
-  }));
+  }).then(parseUser);
 };
 
 module.exports.createUser = (payload) => {
