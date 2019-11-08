@@ -16,6 +16,7 @@ const parseEvent = event => {
 module.exports.getEvents = () => {
   const sql = SQL`
     SELECT
+      event_id,
       logo,
       name,
       tags,

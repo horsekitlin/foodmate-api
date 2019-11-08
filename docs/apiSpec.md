@@ -231,6 +231,7 @@ Authorization: token
   data: {
     events: [
       {
+        event_id: number,
         logo: string,
         name: string,
         created_at: date string,
