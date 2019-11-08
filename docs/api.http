@@ -85,4 +85,10 @@ GET http://localhost:3000/v1/events
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
+### 取單一活動詳情
+
+GET http://localhost:3000/v1/events/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
 ###

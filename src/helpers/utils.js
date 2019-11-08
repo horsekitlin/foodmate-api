@@ -5,6 +5,11 @@ const { SALT_SECRET, AUTH_SECRET } = process.env;
 
 module.exports.debugLog = msg => console.log(`[debug] ${msg}`);
 
+module.exports.parseJson = jsonString =>
+  isEmpty(jsonString)
+    ? undefined
+    : JSON.parse(jsonString);
+
 module.exports.parseBooleanToInt = (bool) => {
   return Number(bool);
 };

@@ -1,17 +1,27 @@
 const express = require('express');
 const yup = require('yup');
 const { responseOk, responseErrWithMsg } = require('../helpers/response');
-const { createEvent, getEvents } = require('../models/eventQueries');
+const { createEvent, getEvents, getEvent } = require('../models/eventQueries');
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const { user } = req;
-
     const events = await getEvents();
 
     return responseOk(res, { success: true, data: { events } });
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
+
+router.get('/:event_id', async (req, res) => {
+  try {
+    const {event_id} = req.params;
+
+    const event = await getEvent(event_id);
+
+    return responseOk(res, { success: true, data: event });
   } catch (error) {
     return responseErrWithMsg(res, error.message);
   }

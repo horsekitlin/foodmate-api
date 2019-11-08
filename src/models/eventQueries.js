@@ -25,12 +25,49 @@ module.exports.getEvents = () => {
       users.display_name as owner_name
     FROM
       events
-    INNER JOIN users ON users.uid = events.owner_id
+    INNER JOIN
+      users
+    ON
+      users.uid = events.owner_id
     WHERE 1
   `;
 
   return query(sql).then(events => {
     return events.map(parseEvent)
+  });
+};
+
+module.exports.getEvent = (event_id) => {
+  const sql = SQL`
+    SELECT
+      event_id,
+      logo,
+      name,
+      tags,
+      owner_id,
+      event_date,
+      validate_date,
+      max_member,
+      member_count,
+      payment_method,
+      budget,
+      google_json,
+      address,
+      description,
+      events.created_at as created_at,
+      users.display_name as owner_name
+    FROM
+      events
+    INNER JOIN
+      users
+    ON
+      users.uid = events.owner_id
+    WHERE event_id=${event_id}
+  `;
+
+  return query(sql).then(([event]) => {
+    if(isEmpty(event)) return {};
+    return parseEvent(event);
   });
 };
 
