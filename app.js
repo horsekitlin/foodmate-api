@@ -1,6 +1,7 @@
+
 const dotenv = require('dotenv');
 dotenv.config();
-
+const { jwtAuthorizationMiddleware } = require('./src/helpers/passportManager');
 const Express = require('express');
 const httpModule = require('http');
 const logger = require('morgan');
@@ -35,12 +36,11 @@ app.use(passport.session());
 
 const authRouter = require('./src/routes/authRouter');
 const userRouter = require('./src/routes/userRouter');
-const roomRouter = require('./src/routes/roomRouter');
+const eventRouter = require('./src/routes/eventRouter');
 
 app.use('/v1/login', authRouter);
 app.use('/v1/users', userRouter);
-app.use('/rooms', roomRouter);
-
+app.use('/v1/events', jwtAuthorizationMiddleware, eventRouter);
 
 http.listen(process.env.PORT || 3000, function () {
   console.log('listening on *:3000');
@@ -48,5 +48,5 @@ http.listen(process.env.PORT || 3000, function () {
 
 //Nodejs 奇怪的錯誤防止Process 死掉
 process.on('uncaughtException', function (err) {
-  console.log(err);
+  (err);
 })

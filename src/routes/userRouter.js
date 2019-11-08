@@ -23,7 +23,7 @@ const createRequestShape = yup.object().shape({
   disabled: yup.boolean(),
 });
 
-router.post('/created', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     await createRequestShape.validate(req.body);
     const {
@@ -43,7 +43,6 @@ router.post('/created', async (req, res) => {
       disabled: parseBooleanToInt(disabled),
       password_hash: saltHashPassword(password),
     });
-    console.log(4);
     if (result.constructor.name === 'OkPacket') {
       return responseOk(res, { success: true });
     }

@@ -6,13 +6,27 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch test --color",
+    "test:CI": "CI=true jest test --color --reporters=jest-junit --forceExit --runInBand --coverage --coverageDirectory=output/coverage/jest"
   },
   "keywords": [
     "chat"
   ],
   "author": "huli",
   "license": "ISC",
+  "jest": {
+    "testURL": "http://localhost/",
+    "collectCoverageFrom": [
+      "routes/*.js",
+      "!src/app.js",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "connect-redis": "^3.4.1",
@@ -34,11 +48,18 @@
     "yup": "^0.27.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-plugin-transform-flow-strip-types": "^6.18.0",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-stage-0": "^6.16.0",
-    "eslint": "^4.18.2",
-    "nodemon": "^1.11.0"
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "babel-core": "7.0.0-bridge.0",
+    "dotenv": "^8.0.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jest-jenkins-reporter": "^1.0.2",
+    "jest-junit": "^6.4.0",
+    "nodemon": "^1.19.1",
+    "supertest": "^4.0.2"
   }
 }
