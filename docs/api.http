@@ -138,4 +138,13 @@ DELETE  http://localhost:3000/v1/events/2
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
+### 會員加入活動
+POST  http://localhost:3000/v1/events/2/members
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "comment": "hello world"
+}
+
 ###

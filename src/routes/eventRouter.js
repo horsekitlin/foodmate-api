@@ -1,9 +1,49 @@
 const express = require('express');
 const yup = require('yup');
+const isEmpty = require('lodash/isEmpty');
 const { responseOk, responseErrWithMsg } = require('../helpers/response');
 const { createEvent, getEvents, getEvent, replaceEvent, deleteEvent } = require('../models/eventQueries');
+const { joinEvent, getMemberInEventBy } = require('../models/eventUserQueries');
 
 const router = express.Router();
+
+const joinEventRequestShape = yup.object().shape({
+  comment: yup.string().required('comment 不可為空'),
+});
+
+router.post('/:event_id/members', async (req, res) => {
+  try {
+    await joinEventRequestShape.validate(req.body);
+    const { comment } = req.body;
+    const { user, params } = req;
+    const { uid } = user;
+
+    const { event_id } = params;
+    const event = await getEvent(event_id);
+
+    const member = await getMemberInEventBy(uid);
+    if(!isEmpty(member)) {
+      return responseErrWithMsg(res, '您已經在活動內');
+    }
+
+    if (event.owner_id === user.uid) {
+      return responseErrWithMsg(res, '主揪不可重複參加活動');
+    }
+
+    if (event.max_member >= event.member_count) {
+      return responseErrWithMsg(res, '此活動已額滿');
+    }
+
+    const result = await joinEvent(event_id, uid, comment);
+
+    if (result.constructor.name === 'OkPacket') {
+      return responseOk(res, { success: true });
+    }
+    return responseErrWithMsg(res, '加入揪團失敗');
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
 
 router.get('/', async (req, res) => {
   try {

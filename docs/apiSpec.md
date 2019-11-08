@@ -367,7 +367,6 @@ Authorization: token
 ### Request
 
 {
-  event_id: number,
   comment: string
 }
 
