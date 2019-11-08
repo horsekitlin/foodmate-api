@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `users`
     `password_hash`  VARCHAR(256) NOT NULL,
     `phone_number`  VARCHAR(256) NOT NULL,
     `display_name`  VARCHAR(256) NOT NULL,
-    `gender`  VARCHAR(4) NOT NULL DEFAULT U COMMENT 'M: 男, F: 女, U: 未知',
+    `gender`  VARCHAR(4) NOT NULL DEFAULT "U" COMMENT 'M: 男, F: 女, U: 未知',
     `job_title`  VARCHAR(64) NOT NULL,
     `soul_food`  TINYINT NOT NULL DEFAULT 0 COMMENT '0 = 脆皮甜圈, 1 = 跳跳炸蝦, 2 = 安心壽司, 3 = 德國腸腸, 4 = 挨刀蘋果, 5 = 厭世披薩',
     `info`  VARCHAR(256) NOT NULL,

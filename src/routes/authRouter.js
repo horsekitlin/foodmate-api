@@ -5,6 +5,8 @@ const pick = require('lodash/pick');
 const yup = require('yup');
 const { responseOk, responseErrWithMsg } = require('../helpers/response');
 
+// 1.1 Login
+
 const loginRequestShape = yup.object().shape({
   phone_number: yup.string().required('phone_number 不可為空'),
   password: yup.string().required('password 不可為空')

@@ -6,6 +6,9 @@ const { parseBooleanToInt, saltHashPassword } = require("../helpers/utils");
 const userQueries = require("../models/userQueries");
 const { responseOk } = require('../helpers/response');
 
+
+// 1.4 Create User
+
 const createRequestShape = yup.object().shape({
   email: yup.string().required('email 不可為空'),
   password: yup.string().required('password 不可為空'),
@@ -53,6 +56,45 @@ router.post('/', async (req, res) => {
   }
 });
 
+// 1.5 Delete Account
+
+const disableUserRequestShape = yup.object().shape({
+  disabled: yup.boolean()
+});
+
+router.put('/disableUser/:uid', async (req, res) => {
+  try {
+    await disableUserRequestShape.validate(req.body);
+    const { 
+      uid
+    } = req.params;
+
+    const result = await userQueries.disableUser(uid, req.body);
+
+    if (result.constructor.name === 'OkPacket') {
+      const user = await userQueries.getUserBy (uid);
+      return responseOk(res, { success: true, disabled: user.disabled });
+    }
+    return responseErrWithMsg(res, '刪除失敗');
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
+
+// 2.1 Get User Information
+
+router.get("/:uid", async (req, res) => {
+  try {
+    const { uid } = req.params;
+    const user = await userQueries.getUserBy(uid);
+    return responseOk(res, { success: true, data: user })
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
+
+// 2.3 Update User Info
+
 const updateUserInfoRequestShape = yup.object().shape({
   display_name: yup.string().required('display_name 不可為空'),
   gender: yup.mixed().oneOf(['M', "F", "U"]).required('gender 不可為空'),
@@ -80,6 +122,8 @@ router.put('/updateUserInfo/:uid', async (req, res) => {
   }
 });
 
+// 2.4 Update User Setting
+
 const updateUserSettingRequestShape = yup.object().shape({
   is_notification: yup.boolean(),
   is_camera: yup.boolean(),
@@ -104,9 +148,5 @@ router.put('/updateUserSetting/:uid', async (req, res) => {
     return responseErrWithMsg(res, error.message);
   }
 });
-
-router.get("/:uid", async (req, res)) => {
-
-}
 
 module.exports = router;

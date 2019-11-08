@@ -122,3 +122,15 @@ module.exports.updateUserSetting = (uid, payload) => {
   `;
   return query(sql);
 };
+
+module.exports.disableUser = (uid, payload) => {
+  const sql = SQL`
+    UPDATE
+      users
+    SET
+      disabled = ${payload.disabled}
+    WHERE
+      uid=${uid}
+  `;
+  return query(sql);
+};

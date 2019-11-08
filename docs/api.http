@@ -23,7 +23,7 @@ Content-Type: {{contentType}}
   "display_name": "tomas",
   "gender": "F",
   "job_title": "job title",
-  "soul_food": "rice",
+  "soul_food": 0,
   "info": "info",
   "photo_url": "https://cdn.shopifycloud.com/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png",
   "is_notification": false,
@@ -32,6 +32,21 @@ Content-Type: {{contentType}}
   "rate": 5,
   "disabled": false
 }
+
+### 1.5 Delete Account
+PUT http://localhost:3000/v1/users/disableUser/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "disabled": true
+}
+
+
+### 2.1 Get User Information
+GET http://localhost:3000/v1/users/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 ### 2.3 Update User Info
 PUT http://localhost:3000/v1/users/updateUserInfo/1
@@ -52,8 +67,8 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
 {
-  "is_notification": false,
-  "is_camera": false,
+  "is_notification": true,
+  "is_camera": true,
   "is_album": false
 }
 
