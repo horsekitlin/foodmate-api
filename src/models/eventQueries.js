@@ -1,5 +1,37 @@
+const isEmpty = require('lodash/isEmpty');
 const SQL = require('sql-template-strings');
 const { query } = require('./mysqlConnectionPool');
+
+const parseEvent = event => {
+  const tags = isEmpty(event.tags)
+    ? undefined
+    : JSON.parse(event.tags);
+  const google_json = isEmpty(event.google_json)
+    ? undefined
+    : JSON.parse(event.google_json);
+
+  return { ...event, tags, google_json };
+};
+
+module.exports.getEvents = () => {
+  const sql = SQL`
+    SELECT
+      logo,
+      name,
+      tags,
+      owner_id,
+      events.created_at as created_at,
+      users.display_name as owner_name
+    FROM
+      events
+    INNER JOIN users ON users.uid = events.owner_id
+    WHERE 1
+  `;
+
+  return query(sql).then(events => {
+    return events.map(parseEvent)
+  });
+};
 
 module.exports.createEvent = (owner_id, payload) => {
   const sql = SQL`

@@ -78,4 +78,11 @@ Authorization: Bearer {{token}}
   "max_member": 10,
   "member_count": 0
 }
+
+### 取活動列表
+
+GET http://localhost:3000/v1/events
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
 ###

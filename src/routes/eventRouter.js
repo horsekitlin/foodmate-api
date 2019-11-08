@@ -1,10 +1,21 @@
 const express = require('express');
 const yup = require('yup');
 const { responseOk, responseErrWithMsg } = require('../helpers/response');
-const { createEvent } = require('../models/eventQueries');
+const { createEvent, getEvents } = require('../models/eventQueries');
 
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+  try {
+    const { user } = req;
+
+    const events = await getEvents();
+
+    return responseOk(res, { success: true, data: { events } });
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
 
 const createRequestShape = yup.object().shape({
   description: yup.string().required('description 不可為空'),

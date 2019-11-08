@@ -229,12 +229,16 @@ Authorization: token
 {
   success: boolean,
   data: {
-    logo: string,
-    name: string,
-    created_at: date string,
-    tags: array,
-    owner_id: number,
-    owner_name: string
+    events: [
+      {
+        logo: string,
+        name: string,
+        created_at: date string,
+        tags: array,
+        owner_id: number,
+        owner_name: string
+      }
+    ]
   }
 }
 
