@@ -1,7 +1,7 @@
 const express = require('express');
 const yup = require('yup');
 const { responseOk, responseErrWithMsg } = require('../helpers/response');
-const { createEvent, getEvents, getEvent, replaceEvent } = require('../models/eventQueries');
+const { createEvent, getEvents, getEvent, replaceEvent, deleteEvent } = require('../models/eventQueries');
 
 const router = express.Router();
 
@@ -69,6 +69,20 @@ router.post('/', async (req, res, next) => {
       return responseOk(res, { success: true, data: { event_id: result.insertId } });
     }
     return responseErrWithMsg(res, '新增活動失敗');
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
+
+router.delete('/:event_id', async (req, res) => {
+  try {
+    const { event_id } = req.params;
+    const result = await deleteEvent(event_id);
+
+    if (result.constructor.name === 'OkPacket') {
+      return responseOk(res, { success: true });
+    }
+    return responseErrWithMsg(res, '編輯活動失敗');
   } catch (error) {
     return responseErrWithMsg(res, error.message);
   }

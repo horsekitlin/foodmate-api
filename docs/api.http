@@ -132,4 +132,10 @@ Authorization: Bearer {{token}}
   "member_count": 1
 }
 
+### 刪除活動
+
+DELETE  http://localhost:3000/v1/events/2
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
 ###

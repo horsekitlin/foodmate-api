@@ -333,6 +333,25 @@ Authorization: token
   }
 }
 
+## 刪除活動
+
+route: /v1/events/${event_id}
+
+method: delete
+
+### Header
+
+Authorization: token
+
+### Request (query string)
+
+{}
+
+### Response
+
+{
+  success: boolean
+}
 
 
 ##  參加活動

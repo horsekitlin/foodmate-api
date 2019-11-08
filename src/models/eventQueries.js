@@ -132,3 +132,14 @@ module.exports.replaceEvent = (event_id, payload) => {
 
   return query(sql);
 };
+
+module.exports.deleteEvent = (event_id) => {
+  const sql = SQL`
+    DELETE FROM
+      events
+    WHERE
+      event_id=${event_id}
+  `;
+
+  return query(sql);
+};
