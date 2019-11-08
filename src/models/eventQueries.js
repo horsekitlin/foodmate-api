@@ -108,3 +108,27 @@ module.exports.createEvent = (owner_id, payload) => {
 
   return query(sql);
 };
+
+module.exports.replaceEvent = (event_id, payload) => {
+  const sql = SQL`
+    UPDATE
+      events
+    SET
+      logo = ${payload.logo},
+      description = ${payload.description},
+      name = ${payload.name},
+      address = ${payload.address},
+      payment_method = ${payload.payment_method},
+      event_date = ${payload.event_date},
+      validate_date = ${payload.validate_date},
+      tags = ${JSON.stringify(payload.tags)},
+      google_json = ${JSON.stringify(payload.google_json)},
+      max_member = ${payload.max_member},
+      member_count = ${payload.member_count},
+      budget = ${payload.budget}
+    WHERE
+      event_id = ${event_id}
+  `;
+
+  return query(sql);
+};

@@ -280,6 +280,61 @@ Authorization: token
   }
 }
 
+## 編輯活動詳情
+
+route: /v1/events/${event_id}
+
+method: put
+
+### Header
+
+Authorization: token
+
+### Request (query string)
+
+{
+    event_id: number,
+    logo: string,
+    name: string,
+    event_date: date string,
+    validate_date: date string,
+    tags: array(string),
+    owner_id: number,
+    owner_name: string,
+    max_member: number,
+    member_count: number,
+    payment_method: string,
+    budget: number,
+    google_json: json,
+    address: string,
+    description: string
+}
+
+### Response
+
+{
+  success: boolean,
+  data: {
+    event_id: number,
+    logo: string,
+    name: string,
+    event_date: date string,
+    validate_date: date string,
+    tags: array(string),
+    owner_id: number,
+    owner_name: string,
+    max_member: number,
+    member_count: number,
+    payment_method: string,
+    budget: number,
+    google_json: json string,
+    address: string,
+    description: string
+  }
+}
+
+
+
 ##  參加活動
 
 route: /v1/events/${event_id}/members
