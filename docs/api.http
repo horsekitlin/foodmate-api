@@ -3,7 +3,7 @@
 @contentType = application/json
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU3MzE0NDEzMX0.j2IO9B6RN_HYWCltvs6u9uaxjUo4aI6BOH4_EzGkbjg
 
-### Login
+### 1.1 Login
 POST http://localhost:3000/v1/login
 Content-Type: {{contentType}}
 
@@ -12,7 +12,7 @@ Content-Type: {{contentType}}
   "password": "a12345678"
 }
 
-### Create Userr
+### 1.4 Create User
 POST http://localhost:3000/v1/users/
 Content-Type: {{contentType}}
 
@@ -33,7 +33,31 @@ Content-Type: {{contentType}}
   "disabled": false
 }
 
-### Create Event
+### 2.3 Update User Info
+PUT http://localhost:3000/v1/users/updateUserInfo/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "display_name": "test",
+  "gender": "F",
+  "job_title": "job title",
+  "soul_food": 1,
+  "info": "info"
+}
+
+### 2.4 Update User Setting
+PUT http://localhost:3000/v1/users/updateUserSetting/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "is_notification": false,
+  "is_camera": false,
+  "is_album": false
+}
+
+### 3.6 Create Event
 POST http://localhost:3000/v1/events
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
@@ -79,13 +103,13 @@ Authorization: Bearer {{token}}
   "member_count": 0
 }
 
-### 取活動列表
+### 3.1 Get Events 
 
 GET http://localhost:3000/v1/events
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
-### 編輯單一活動詳情
+### 3.8 Update Event
 
 PUT http://localhost:3000/v1/events/1
 Content-Type: {{contentType}}
@@ -138,7 +162,7 @@ DELETE  http://localhost:3000/v1/events/2
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
-### 會員加入活動
+### 3.7 Join Event
 POST  http://localhost:3000/v1/events/2/members
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}

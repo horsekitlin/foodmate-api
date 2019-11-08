@@ -92,3 +92,33 @@ module.exports.createUser = (payload) => {
 
   return query(sql);
 };
+
+module.exports.updateUserInfo = (uid, payload) => {
+  const sql = SQL`
+    UPDATE
+      users
+    SET
+      soul_food = ${payload.soul_food},
+      display_name = ${payload.display_name},
+      job_title = ${payload.job_title},
+      info = ${payload.info},
+      gender = ${payload.gender}
+    WHERE
+      uid = ${uid}
+  `;
+  return query(sql);
+};
+
+module.exports.updateUserSetting = (uid, payload) => {
+  const sql = SQL`
+    UPDATE
+      users
+    SET
+      is_notification = ${payload.is_notification},
+      is_camera = ${payload.is_camera},
+      is_album = ${payload.is_album}
+    WHERE
+      uid=${uid}
+  `;
+  return query(sql);
+};

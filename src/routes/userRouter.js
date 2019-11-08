@@ -3,7 +3,7 @@ const router = express.Router();
 const yup = require('yup');
 const { responseErrWithMsg } = require('../helpers/response');
 const { parseBooleanToInt, saltHashPassword } = require("../helpers/utils");
-const { createUser } = require("../models/userQueries");
+const userQueries = require("../models/userQueries");
 const { responseOk } = require('../helpers/response');
 
 const createRequestShape = yup.object().shape({
@@ -11,9 +11,9 @@ const createRequestShape = yup.object().shape({
   password: yup.string().required('password 不可為空'),
   phone_number: yup.string().required('phone_number 不可為空'),
   display_name: yup.string().required('display_name 不可為空'),
-  gender: yup.string().required('gender 不可為空'),
+  gender: yup.mixed().oneOf(['M', "F", "U"]).required('gender 不可為空'),
   job_title: yup.string().required('job_title 不可為空'),
-  soul_food: yup.string().required('soul_food 不可為空'),
+  soul_food: yup.number(),
   info: yup.string().required('info 不可為空'),
   photo_url: yup.string().required('photo_url 不可為空'),
   rate: yup.number().required('rate 不可為空'),
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
       ...payload
     } = req.body;
 
-    const result = await createUser({
+    const result = await userQueries.createUser({
       ...payload,
       is_album: parseBooleanToInt(is_album),
       is_camera: parseBooleanToInt(is_camera),
@@ -52,5 +52,61 @@ router.post('/', async (req, res) => {
     return responseErrWithMsg(res, error.message);
   }
 });
+
+const updateUserInfoRequestShape = yup.object().shape({
+  display_name: yup.string().required('display_name 不可為空'),
+  gender: yup.mixed().oneOf(['M', "F", "U"]).required('gender 不可為空'),
+  job_title: yup.string().required('job_title 不可為空'),
+  soul_food: yup.number(),
+  info: yup.string().required('info 不可為空')
+});
+
+router.put('/updateUserInfo/:uid', async (req, res) => {
+  try {
+    await updateUserInfoRequestShape.validate(req.body);
+    const { 
+      uid
+    } = req.params;
+
+    const result = await userQueries.updateUserInfo(uid, req.body);
+
+    if (result.constructor.name === 'OkPacket') {
+      const userInfo = await userQueries.getUserBy (uid);
+      return responseOk(res, { success: true, data: userInfo });
+    }
+    return responseErrWithMsg(res, '更新失敗');
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
+
+const updateUserSettingRequestShape = yup.object().shape({
+  is_notification: yup.boolean(),
+  is_camera: yup.boolean(),
+  is_album: yup.boolean()
+});
+
+router.put('/updateUserSetting/:uid', async (req, res) => {
+  try {
+    await updateUserSettingRequestShape.validate(req.body);
+    const { 
+      uid
+    } = req.params;
+
+    const result = await userQueries.updateUserSetting(uid, req.body);
+
+    if (result.constructor.name === 'OkPacket') {
+      const userSetting = await userQueries.getUserBy (uid);
+      return responseOk(res, { success: true, data: userSetting });
+    }
+    return responseErrWithMsg(res, '更新失敗');
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
+
+router.get("/:uid", async (req, res)) => {
+
+}
 
 module.exports = router;
