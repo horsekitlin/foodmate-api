@@ -37,8 +37,6 @@ module.exports.getUserByPhone = (phone_number, withPasswordField = false) => {
 };
 
 module.exports.createUser = (payload) => {
-
-  console.log("TCL: module.exports.createUser -> payload", payload, 4)
   const {
     email,
     password_hash,

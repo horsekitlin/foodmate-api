@@ -39,7 +39,6 @@ passport.use(
   )
 );
 
-console.log("TCL: AUTH_SECRET", AUTH_SECRET)
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   secretOrKey   : AUTH_SECRET
