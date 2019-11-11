@@ -13,24 +13,14 @@ Content-Type: {{contentType}}
 }
 
 ### 1.4 Create User
-POST http://localhost:3000/v1/users/
+POST http://localhost:3000/v1/users/createUser
 Content-Type: {{contentType}}
 
 {
-  "email": "tomas@aaa.bbb",
+  "email": "test1@aaa.bbb",
   "password": "a12345678",
-  "phone_number": "0987654321",
-  "display_name": "tomas",
-  "gender": "F",
-  "job_title": "job title",
-  "soul_food": 0,
-  "info": "info",
-  "photo_url": "https://cdn.shopifycloud.com/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png",
-  "is_notification": false,
-  "is_camera": false,
-  "is_album": false,
-  "rate": 5,
-  "disabled": false
+  "re_password": "a12345678",
+  "phone_number": "0987654321"
 }
 
 ### 1.5 Delete Account
@@ -39,7 +29,7 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
 {
-  "disabled": true
+  "is_deleted": true
 }
 
 

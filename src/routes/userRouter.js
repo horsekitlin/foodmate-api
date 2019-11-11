@@ -7,59 +7,56 @@ const userQueries = require("../models/userQueries");
 const { responseOk } = require('../helpers/response');
 
 
-// 1.4 Create User
+// 1.4 [POST] Create User
 
 const createRequestShape = yup.object().shape({
-  email: yup.string().required('email 不可為空'),
+  email: yup.string().email('email 格式不符').required('email 不可為空'),
   password: yup.string().required('password 不可為空'),
-  phone_number: yup.string().required('phone_number 不可為空'),
-  display_name: yup.string().required('display_name 不可為空'),
-  gender: yup.mixed().oneOf(['M', "F", "U"]).required('gender 不可為空'),
-  job_title: yup.string().required('job_title 不可為空'),
-  soul_food: yup.number(),
-  info: yup.string().required('info 不可為空'),
-  photo_url: yup.string().required('photo_url 不可為空'),
-  rate: yup.number().required('rate 不可為空'),
-  is_notification: yup.boolean(),
-  is_camera: yup.boolean(),
-  is_album: yup.boolean(),
-  disabled: yup.boolean(),
+  re_password: yup.string().required('re_password 不可為空'),
+  phone_number: yup.string().length(10).required('phone_number 不可為空')
 });
 
-router.post('/', async (req, res) => {
+router.post('/createUser', async (req, res) => {
   try {
     await createRequestShape.validate(req.body);
     const {
-      is_album,
-      is_camera,
-      is_notification,
-      disabled,
+      email,
       password,
-      ...payload
+      re_password,
+      phone_number
     } = req.body;
-
-    const result = await userQueries.createUser({
-      ...payload,
-      is_album: parseBooleanToInt(is_album),
-      is_camera: parseBooleanToInt(is_camera),
-      is_notification: parseBooleanToInt(is_notification),
-      disabled: parseBooleanToInt(disabled),
-      password_hash: saltHashPassword(password),
-    });
-    if (result.constructor.name === 'OkPacket') {
-      return responseOk(res, { success: true });
+    if (password != re_password) {
+      return responseErrWithMsg(res, "密碼不一致，請重新輸入");
     }
-
-    return responseErrWithMsg(res, "建立使用者失敗");
+    const [findUser] = await userQueries.getUserByEmailAndPhone(email, phone_number)
+    console.log(email)
+    console.log(phone_number)
+    console.log(findUser.tf)
+    if (findUser.tf === 1) {
+      return responseErrWithMsg(res, "建立使用者失敗，Email or phone_number 已重複");
+    } 
+    else {
+      const result = await userQueries.createUser(
+        {
+          email,
+          password_hash: saltHashPassword(password),
+          phone_number
+        }
+      );
+      if (result.constructor.name === "OkPacket") {
+        return responseOk(res, { success: true });
+      }
+      return responseErrWithMsg(res, "建立使用者失敗");
+    }
   } catch (error) {
-    return responseErrWithMsg(res, error.message);
+  return responseErrWithMsg(res, error.message);
   }
 });
 
-// 1.5 Delete Account
+// 1.5 [PUT] Delete Account
 
 const disableUserRequestShape = yup.object().shape({
-  disabled: yup.boolean()
+  is_deleted: yup.boolean().required("is_deleted 不得為空")
 });
 
 router.put('/disableUser/:uid', async (req, res) => {
@@ -69,11 +66,11 @@ router.put('/disableUser/:uid', async (req, res) => {
       uid
     } = req.params;
 
-    const result = await userQueries.disableUser(uid, req.body);
+    const result = await userQueries.deleteUser(uid, req.body);
 
     if (result.constructor.name === 'OkPacket') {
       const user = await userQueries.getUserBy (uid);
-      return responseOk(res, { success: true, disabled: user.disabled });
+      return responseOk(res, { success: true, is_deleted: user.is_deleted });
     }
     return responseErrWithMsg(res, '刪除失敗');
   } catch (error) {
@@ -99,7 +96,7 @@ const updateUserInfoRequestShape = yup.object().shape({
   display_name: yup.string().required('display_name 不可為空'),
   gender: yup.mixed().oneOf(['M', "F", "U"]).required('gender 不可為空'),
   job_title: yup.string().required('job_title 不可為空'),
-  soul_food: yup.number(),
+  soul_food: yup.number().required('soul_food 不可為空'),
   info: yup.string().required('info 不可為空')
 });
 
@@ -125,9 +122,9 @@ router.put('/updateUserInfo/:uid', async (req, res) => {
 // 2.4 Update User Setting
 
 const updateUserSettingRequestShape = yup.object().shape({
-  is_notification: yup.boolean(),
-  is_camera: yup.boolean(),
-  is_album: yup.boolean()
+  is_notification: yup.boolean().required("is_notification 不得為空"),
+  is_camera: yup.boolean().required("is_camera 不得為空"),
+  is_album: yup.boolean().required("is_album 不得為空")
 });
 
 router.put('/updateUserSetting/:uid', async (req, res) => {

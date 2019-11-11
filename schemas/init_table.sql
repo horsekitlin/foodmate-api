@@ -16,20 +16,22 @@ CREATE TABLE IF NOT EXISTS `users`
     `email` VARCHAR(128) NOT NULL,
     `password_hash`  VARCHAR(256) NOT NULL,
     `phone_number`  VARCHAR(256) NOT NULL,
-    `display_name`  VARCHAR(256) NOT NULL,
+    `display_name`  VARCHAR(256),
     `gender`  VARCHAR(4) NOT NULL DEFAULT "U" COMMENT 'M: 男, F: 女, U: 未知',
-    `job_title`  VARCHAR(64) NOT NULL,
+    `job_title`  VARCHAR(64),
     `soul_food`  TINYINT NOT NULL DEFAULT 0 COMMENT '0 = 脆皮甜圈, 1 = 跳跳炸蝦, 2 = 安心壽司, 3 = 德國腸腸, 4 = 挨刀蘋果, 5 = 厭世披薩',
-    `info`  VARCHAR(256) NOT NULL,
-    `photo_url`  VARCHAR(256) NOT NULL,
+    `info`  VARCHAR(256),
+    `photo_url`  VARCHAR(256),
     `is_notification`  TINYINT DEFAULT 0,
     `is_camera`  TINYINT DEFAULT 0,
     `is_album`  TINYINT DEFAULT 0,
+    `is_deleted`  TINYINT DEFAULT 0,
     `rate`  TINYINT DEFAULT 0,
     `disabled`  TINYINT DEFAULT 0,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`uid`)
+    PRIMARY KEY (`uid`),
+    UNIQUE(email, phone_number)
 ) ENGINE = InnoDB COLLATE = 'utf8_unicode_ci';
 
 /******************************************
