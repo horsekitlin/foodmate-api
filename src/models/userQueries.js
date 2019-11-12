@@ -36,11 +36,20 @@ module.exports.getUserByPhone = (phone_number, withPasswordField = false) => {
   }).then(parseUser);
 };
 
-module.exports.getUserByEmailAndPhone = (email, phone_number) => {
+module.exports.checkUserByEmailAndPhone = (email, phone_number) => {
   const sql = SQL`
     SELECT if(count(*)>=1 ,1 ,0) as tf
     FROM users
     WHERE email = ${email} or phone_number = ${phone_number}
+  `;
+  return query(sql)
+};
+
+module.exports.checkUserByName = (display_name) => {
+  const sql = SQL`
+    SELECT if(count(*)>=1 ,1 ,0) as tf
+    FROM users
+    WHERE display_name = ${display_name}
   `;
   return query(sql)
 };

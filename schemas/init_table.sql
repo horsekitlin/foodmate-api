@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `users`
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`uid`),
-    UNIQUE(email, phone_number)
+    UNIQUE(email, phone_number, display_name)
 ) ENGINE = InnoDB COLLATE = 'utf8_unicode_ci';
 
 /******************************************

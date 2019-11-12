@@ -1,14 +1,14 @@
 ### 
 @domain = http://localhost:3000/v1/
 @contentType = application/json
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU3MzE0NDEzMX0.j2IO9B6RN_HYWCltvs6u9uaxjUo4aI6BOH4_EzGkbjg
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU3MzU0Nzg2Mn0.dO0DY0yc2FPSKTMnoDhUSz6D3vUszQbIdIGZY_Zimco
 
 ### 1.1 Login
 POST http://localhost:3000/v1/login
 Content-Type: {{contentType}}
 
 {
-  "phone_number": "0987654321",
+  "phone_number": "0987654322",
   "password": "a12345678"
 }
 
@@ -17,10 +17,10 @@ POST http://localhost:3000/v1/users/createUser
 Content-Type: {{contentType}}
 
 {
-  "email": "test1@aaa.bbb",
+  "email": "test4@aaa.bbb",
   "password": "a12345678",
   "re_password": "a12345678",
-  "phone_number": "0987654321"
+  "phone_number": "0987654324"
 }
 
 ### 1.5 Delete Account
@@ -32,9 +32,8 @@ Authorization: Bearer {{token}}
   "is_deleted": true
 }
 
-
-### 2.1 Get User Information
-GET http://localhost:3000/v1/users/1
+### 2.1 Get User Info
+GET http://localhost:3000/v1/users/info/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
@@ -61,6 +60,17 @@ Authorization: Bearer {{token}}
   "is_camera": true,
   "is_album": false
 }
+
+### 2.6 Get User Detail
+GET http://localhost:3000/v1/users/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+### 2.7 Check Display Name
+GET http://localhost:3000/v1/users/checkDisplayName/test1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
 
 ### 3.6 Create Event
 POST http://localhost:3000/v1/events
@@ -111,6 +121,12 @@ Authorization: Bearer {{token}}
 ### 3.1 Get Events 
 
 GET http://localhost:3000/v1/events
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+### 3.2 Get Event Detail
+
+GET http://localhost:3000/v1/events/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
@@ -167,8 +183,8 @@ DELETE  http://localhost:3000/v1/events/2
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
-### 3.7 Join Event
-POST  http://localhost:3000/v1/events/2/members
+### 3.7 Join Event /:event_id/members
+POST  http://localhost:3000/v1/events/3/members
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 

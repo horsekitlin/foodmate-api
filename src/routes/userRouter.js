@@ -28,7 +28,7 @@ router.post('/createUser', async (req, res) => {
     if (password != re_password) {
       return responseErrWithMsg(res, "密碼不一致，請重新輸入");
     }
-    const [findUser] = await userQueries.getUserByEmailAndPhone(email, phone_number)
+    const [findUser] = await userQueries.checkUserByEmailAndPhone(email, phone_number)
     console.log(email)
     console.log(phone_number)
     console.log(findUser.tf)
@@ -80,11 +80,20 @@ router.put('/disableUser/:uid', async (req, res) => {
 
 // 2.1 Get User Information
 
-router.get("/:uid", async (req, res) => {
+router.get("/info/:uid", async (req, res) => {
   try {
     const { uid } = req.params;
     const user = await userQueries.getUserBy(uid);
-    return responseOk(res, { success: true, data: user })
+    return responseOk(res, {
+      success: true,
+      info: {
+        display_name: user.display_name,
+        photo_url: user.photo_url,
+        job_title: user.job_title,
+        rate: user.rate,
+        info: user.info
+      }
+    });
   } catch (error) {
     return responseErrWithMsg(res, error.message);
   }
@@ -119,7 +128,7 @@ router.put('/updateUserInfo/:uid', async (req, res) => {
   }
 });
 
-// 2.4 Update User Setting
+// 2.4 [PUT] Update User Setting
 
 const updateUserSettingRequestShape = yup.object().shape({
   is_notification: yup.boolean().required("is_notification 不得為空"),
@@ -145,5 +154,35 @@ router.put('/updateUserSetting/:uid', async (req, res) => {
     return responseErrWithMsg(res, error.message);
   }
 });
+
+// 2.6 [GET] Get User Detail
+
+router.get("/:uid", async (req, res) => {
+  try {
+    const { uid } = req.params;
+    const user = await userQueries.getUserBy(uid);
+    return responseOk(res, { success: true, data: user })
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
+
+// 2.7 [GET] Check Display Name
+
+router.get("/checkDisplayName/:display_name", async (req, res) => {
+  try {
+    const { display_name } = req.params;
+    const [checkUserResult] = await userQueries.checkUserByName(display_name);
+    console.log(checkUserResult)
+    if (checkUserResult.tf === 1){
+      return responseOk(res, { success: true, is_repeat: true, message: "不好意思這個名稱已經有人使用囉" })
+    } else { 
+      return responseOk(res, { success: true, is_repeat: false, message: "請安心使用這個名稱" })
+    }
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
+
 
 module.exports = router;

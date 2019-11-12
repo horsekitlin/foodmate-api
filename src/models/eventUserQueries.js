@@ -30,6 +30,14 @@ module.exports.getMemberInEventBy = (uid) => {
     WHERE
       uid=${uid}
   `;
-
   return query(sql).then(([member = {}]) => member);
+}
+
+module.exports.checkMemberInEvent = (uid, event_id) => {
+  const sql = SQL`
+    SELECT if(count(*)>=1 ,1 ,0) as tf
+    FROM event_users
+    WHERE uid = ${uid} and event_id = ${event_id}
+  `;
+  return query(sql)
 }
