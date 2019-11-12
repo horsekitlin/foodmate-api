@@ -1,14 +1,14 @@
 ### 
 @domain = http://localhost:3000/v1/
 @contentType = application/json
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU3MzU0Nzg2Mn0.dO0DY0yc2FPSKTMnoDhUSz6D3vUszQbIdIGZY_Zimco
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjMsImlhdCI6MTU3MzU1OTk0MX0.NFFKLHxDW5ONTnxFi-gO3BaFYaVLv0FLAzLPbwf3294
 
 ### 1.1 Login
 POST http://localhost:3000/v1/login
 Content-Type: {{contentType}}
 
 {
-  "phone_number": "0987654322",
+  "phone_number": "0987654323",
   "password": "a12345678"
 }
 
@@ -17,10 +17,10 @@ POST http://localhost:3000/v1/users/createUser
 Content-Type: {{contentType}}
 
 {
-  "email": "test4@aaa.bbb",
+  "email": "test5@aaa.bbb",
   "password": "a12345678",
   "re_password": "a12345678",
-  "phone_number": "0987654324"
+  "phone_number": "0987654325"
 }
 
 ### 1.5 Delete Account
@@ -62,7 +62,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 2.6 Get User Detail
-GET http://localhost:3000/v1/users/1
+GET http://localhost:3000/v1/users/2
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
@@ -83,7 +83,7 @@ Authorization: Bearer {{token}}
   "name": "event name",
   "address": "台北市南港路三段",
   "payment_method": "PAY_BY_SELF",
-  "event_date": "2019-12-31 00:00:00",
+  "event_date": "2019-11-12 12:00:00",
   "validate_date": "2019-12-30 00:00:00",
   "tags": ["HELLO"],
   "google_json": {
@@ -121,6 +121,11 @@ Authorization: Bearer {{token}}
 ### 3.1 Get Events 
 
 GET http://localhost:3000/v1/events
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+### 3.1 Get Events Query 不到版
+GET http://localhost:3000/v1/events?date=today&&uid=3
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 

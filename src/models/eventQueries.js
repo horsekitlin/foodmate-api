@@ -71,6 +71,41 @@ module.exports.getEvent = (event_id) => {
   });
 };
 
+module.exports.getTodayEvents = (date, uid) => {
+  let queryArray = [];
+
+  if(!isEmpty(date)){
+    queryArray = [ `DATE(event_date) = CURDATE()` ]
+  }
+
+  if(!isEmpty(uid)) {
+    queryArray = [ ...queryArray, `owner.id = ${uid}` ]
+  }
+  const sql = SQL`
+    SELECT
+      event_id,
+      logo,
+      name,
+      tags,
+      owner_id,
+      event_date,
+      users.display_name as owner_name,
+      users.photo_url as owner_photo,
+      users.soul_food as owner_soulfood
+    FROM
+      events
+    INNER JOIN
+      users
+    ON
+      users.uid = events.owner_id
+    WHERE ${queryArray.join(' and ')}
+  `;
+  return query(sql).then(([event]) => {
+    if(isEmpty(event)) return {};
+    return parseEvent(event);
+  });
+};
+
 module.exports.createEvent = (owner_id, payload) => {
   const sql = SQL`
     INSERT INTO

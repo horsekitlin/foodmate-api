@@ -2,16 +2,23 @@ const express = require('express');
 const yup = require('yup');
 const isEmpty = require('lodash/isEmpty');
 const { responseOk, responseErrWithMsg } = require('../helpers/response');
-const { createEvent, getEvents, getEvent, replaceEvent, deleteEvent } = require('../models/eventQueries');
+const eventQueries = require('../models/eventQueries');
 const eventUserQueries = require('../models/eventUserQueries');
+const moment = require("moment")
 
 const router = express.Router();
+
+
 
 // 3.1 Get Events
 
 router.get('/', async (req, res) => {
+  const date = await req.query.date;
+  const uid = await req.query.uid;
+  console.log(date)
+  console.log(uid)
   try {
-    const events = await getEvents();
+    const events = await eventQueries.getTodayEvents(date, uid);
     return responseOk(res, { success: true, data: { events } });
   } catch (error) {
     return responseErrWithMsg(res, error.message);
