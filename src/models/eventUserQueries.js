@@ -41,3 +41,30 @@ module.exports.checkMemberInEvent = (uid, event_id) => {
   `;
   return query(sql)
 }
+
+module.exports.getApplicationList = (event_id, uid) => {
+  const sql = SQL`
+  SELECT
+    event_users.event_id,
+    event_users.uid,
+    events.owner_id,
+    comment,
+    stat,
+    display_name,
+    soul_food,
+    photo_url
+  FROM
+    event_users 
+  INNER JOIN
+    users
+  ON
+    event_users.uid = users.uid
+  INNER JOIN
+    events
+  ON
+    event_users.event_id = events.event_id
+  WHERE
+    event_users.event_id = ${event_id} and event_users.uid = ${uid} 
+  `;
+  return query(sql)
+}

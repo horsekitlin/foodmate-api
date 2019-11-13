@@ -13,12 +13,13 @@ const router = express.Router();
 // 3.1 Get Events
 
 router.get('/', async (req, res) => {
-  const date = await req.query.date;
-  const uid = await req.query.uid;
+  const date = req.query.date;
+  const uid = req.query.uid;
   console.log(date)
   console.log(uid)
   try {
-    const events = await eventQueries.getTodayEvents(date, uid);
+    const events = await eventQueries.getEvents(date, uid);
+    console.log('query completed')
     return responseOk(res, { success: true, data: { events } });
   } catch (error) {
     return responseErrWithMsg(res, error.message);
@@ -31,7 +32,7 @@ router.get('/:event_id', async (req, res) => {
   try {
     const { event_id } = req.params;
 
-    const event = await getEvent(event_id);
+    const event = await eventQueries.getEvent(event_id);
 
     return responseOk(res, { success: true, data: event });
   } catch (error) {
@@ -54,6 +55,23 @@ const eventRequestShape = yup.object().shape({
   budget: yup.number().required('budget 不可為空'),
 });
 
+// 3.3 Get Application List && 3.4 Get Applicants List
+
+router.get('/:event_id/applicationList', async (req, res) => {
+  const event_id = req.params.event_id;
+  const uid = req.query.uid;
+  console.log(event_id)
+  console.log(uid)
+  try {
+    const events = await eventUserQueries.getApplicationList(event_id, uid);
+    console.log('query completed')
+    return responseOk(res, { success: true, data: { events } });
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
+
+
 //[POST] 3.6 Create Event
 
 router.post('/', async (req, res, next) => {
@@ -61,7 +79,7 @@ router.post('/', async (req, res, next) => {
     await eventRequestShape.validate(req.body);
     const { user } = req;
 
-    const result = await createEvent(user.uid, req.body);
+    const result = await eventQueries.createEvent(user.uid, req.body);
 
     if (result.constructor.name === 'OkPacket') {
       return responseOk(res, { success: true, data: { event_id: result.insertId } });
@@ -78,7 +96,7 @@ const joinEventRequestShape = yup.object().shape({
 
 //[POST] 3.7 Join Event
 
-router.post('/:event_id/members', async (req, res) => {
+router.post('/:event_id/joinEvent', async (req, res) => {
   try {
     await joinEventRequestShape.validate(req.body);
     const { comment } = req.body;
@@ -86,7 +104,7 @@ router.post('/:event_id/members', async (req, res) => {
     const { uid } = user;
 
     const { event_id } = params;
-    const event = await getEvent(event_id);
+    const event = await eventQueries.getEvent(event_id);
     console.log(event_id)
     console.log(uid)
     const [findMember] = await eventUserQueries.checkMemberInEvent(uid, event_id);
