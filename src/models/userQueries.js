@@ -36,22 +36,29 @@ module.exports.getUserByPhone = (phone_number, withPasswordField = false) => {
   }).then(parseUser);
 };
 
+module.exports.checkUserByEmailAndPhone = (email, phone_number) => {
+  const sql = SQL`
+    SELECT if(count(*)>=1 ,1 ,0) as tf
+    FROM users
+    WHERE email = ${email} or phone_number = ${phone_number}
+  `;
+  return query(sql)
+};
+
+module.exports.checkUserByName = (display_name) => {
+  const sql = SQL`
+    SELECT if(count(*)>=1 ,1 ,0) as tf
+    FROM users
+    WHERE display_name = ${display_name}
+  `;
+  return query(sql)
+};
+
 module.exports.createUser = (payload) => {
   const {
     email,
     password_hash,
-    phone_number,
-    display_name,
-    gender,
-    job_title,
-    soul_food,
-    info,
-    photo_url,
-    rate,
-    is_notification,
-    is_camera,
-    is_album,
-    disabled
+    phone_number
   } = payload;
 
   const sql = SQL`
@@ -60,35 +67,66 @@ module.exports.createUser = (payload) => {
     (
       email,
       password_hash,
-      phone_number,
-      display_name,
-      gender,
-      job_title,
-      soul_food,
-      info,
-      photo_url,
-      rate,
-      is_notification,
-      is_camera,
-      is_album,
-      disabled
+      phone_number
     ) VALUES (
       ${email},
       ${password_hash},
-      ${phone_number},
-      ${display_name},
-      ${gender},
-      ${job_title},
-      ${soul_food},
-      ${info},
-      ${photo_url},
-      ${rate},
-      ${is_notification},
-      ${is_camera},
-      ${is_album},
-      ${disabled}
+      ${phone_number}
     )
   `;
+  return query(sql);
+};
 
+module.exports.updateUserInfo = (uid, payload) => {
+  const sql = SQL`
+    UPDATE
+      users
+    SET
+      soul_food = ${payload.soul_food},
+      display_name = ${payload.display_name},
+      job_title = ${payload.job_title},
+      info = ${payload.info},
+      gender = ${payload.gender}
+    WHERE
+      uid = ${uid}
+  `;
+  return query(sql);
+};
+
+module.exports.updateUserSetting = (uid, payload) => {
+  const sql = SQL`
+    UPDATE
+      users
+    SET
+      is_notification = ${payload.is_notification},
+      is_camera = ${payload.is_camera},
+      is_album = ${payload.is_album}
+    WHERE
+      uid=${uid}
+  `;
+  return query(sql);
+};
+
+module.exports.disableUser = (uid, payload) => {
+  const sql = SQL`
+    UPDATE
+      users
+    SET
+      disabled = ${payload.disabled}
+    WHERE
+      uid=${uid}
+  `;
+  return query(sql);
+};
+
+module.exports.deleteUser = (uid, payload) => {
+  const sql = SQL`
+    UPDATE
+      users
+    SET
+      is_deleted = ${payload.is_deleted}
+    WHERE
+      uid=${uid}
+  `;
   return query(sql);
 };

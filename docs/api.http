@@ -1,39 +1,78 @@
 ### 
 @domain = http://localhost:3000/v1/
 @contentType = application/json
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTU3MzE0NDEzMX0.j2IO9B6RN_HYWCltvs6u9uaxjUo4aI6BOH4_EzGkbjg
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjQsImlhdCI6MTU3MzcyNDgwOH0.4DqKBk-zsjlLsjB8eeQIm-eO86rD-p0fR_rEX-6PhqI
 
-### Login
+### 1.1 Login
 POST http://localhost:3000/v1/login
 Content-Type: {{contentType}}
 
 {
-  "phone_number": "0987654321",
+  "phone_number": "0987654324",
   "password": "a12345678"
 }
 
-### Create Userr
-POST http://localhost:3000/v1/users/
+### 1.4 Create User
+POST http://localhost:3000/v1/users/createUser
 Content-Type: {{contentType}}
 
 {
-  "email": "tomas@aaa.bbb",
+  "email": "test5@aaa.bbb",
   "password": "a12345678",
-  "phone_number": "0987654321",
-  "display_name": "tomas",
-  "gender": "F",
-  "job_title": "job title",
-  "soul_food": "rice",
-  "info": "info",
-  "photo_url": "https://cdn.shopifycloud.com/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png",
-  "is_notification": false,
-  "is_camera": false,
-  "is_album": false,
-  "rate": 5,
-  "disabled": false
+  "re_password": "a12345678",
+  "phone_number": "0987654325"
 }
 
-### Create Event
+### 1.5 Delete Account
+PUT http://localhost:3000/v1/users/disableUser/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "is_deleted": true
+}
+
+### 2.1 Get User Info
+GET http://localhost:3000/v1/users/info/3
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+### 2.3 Update User Info
+PUT http://localhost:3000/v1/users/updateUserInfo/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "display_name": "test",
+  "gender": "F",
+  "job_title": "job title",
+  "soul_food": 1,
+  "info": "info"
+}
+
+### 2.4 Update User Setting
+PUT http://localhost:3000/v1/users/updateUserSetting/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "is_notification": true,
+  "is_camera": true,
+  "is_album": false
+}
+
+### 2.6 Get User Detail
+GET http://localhost:3000/v1/users/2
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+### 2.7 Check Display Name
+GET http://localhost:3000/v1/users/checkDisplayName/test1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+
+### 3.6 Create Event
 POST http://localhost:3000/v1/events
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
@@ -41,10 +80,10 @@ Authorization: Bearer {{token}}
 {
   "logo": "https://cdn.shopifycloud.com/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png",
   "description": "description",
-  "name": "event name",
+  "name": "11/14event name",
   "address": "台北市南港路三段",
   "payment_method": "PAY_BY_SELF",
-  "event_date": "2019-12-31 00:00:00",
+  "event_date": "2019-11-15 12:00:00",
   "validate_date": "2019-12-30 00:00:00",
   "tags": ["HELLO"],
   "google_json": {
@@ -79,13 +118,25 @@ Authorization: Bearer {{token}}
   "member_count": 0
 }
 
-### 取活動列表
+### 3.1 Get Events parm:date=today&uid=3
 
-GET http://localhost:3000/v1/events
+GET http://localhost:3000/v1/events?date=today&uid=3
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
-### 編輯單一活動詳情
+### 3.2 Get Event Detail
+
+GET http://localhost:3000/v1/events/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+### 3.3 Get Application List && 3.4 Get Applicants List
+
+GET http://localhost:3000/v1/events/11/applicationList?uid=2
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+### 3.8 Update Event
 
 PUT http://localhost:3000/v1/events/1
 Content-Type: {{contentType}}
@@ -138,8 +189,8 @@ DELETE  http://localhost:3000/v1/events/2
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
-### 會員加入活動
-POST  http://localhost:3000/v1/events/2/members
+### 3.7 Join Event /:event_id/joinEvent
+POST  http://localhost:3000/v1/events/11/joinEvent
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 

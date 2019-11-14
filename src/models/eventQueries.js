@@ -13,7 +13,17 @@ const parseEvent = event => {
   return { ...event, tags, google_json };
 };
 
-module.exports.getEvents = () => {
+module.exports.getEvents = (date, uid) => {
+  let queryArray = [`1=1`];
+
+  if( date !== undefined ){
+    queryArray.push(`DATE(event_date) = CURDATE()`)
+  }
+  if(uid !== undefined ) {
+    queryArray.push(`owner_id = ${uid}`)
+  }
+  const finalQueryArray = queryArray.join(" AND ")
+  console.log(finalQueryArray)
   const sql = SQL`
     SELECT
       event_id,
@@ -21,20 +31,19 @@ module.exports.getEvents = () => {
       name,
       tags,
       owner_id,
-      events.created_at as created_at,
-      users.display_name as owner_name
+      event_date,
+      users.display_name as owner_name,
+      users.photo_url as owner_photo,
+      users.soul_food as owner_soulfood
     FROM
       events
     INNER JOIN
       users
     ON
       users.uid = events.owner_id
-    WHERE 1
   `;
-
-  return query(sql).then(events => {
-    return events.map(parseEvent)
-  });
+  sql.append(`WHERE ${finalQueryArray}`);
+  return query(sql)
 };
 
 module.exports.getEvent = (event_id) => {
