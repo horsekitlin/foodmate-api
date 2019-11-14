@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
+version: 1
 jobs:
     node:
       - version: 10.16.3 #把剛剛得到的node version填到這裡
