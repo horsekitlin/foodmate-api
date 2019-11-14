@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "jest",
-    "test:watch": "jest --watch test --color",
+    "test": "test",
+    "test:watch": "test --watch test --color",
     "test:CI": "CI=true jest test --color --reporters=jest-junit --forceExit --runInBand --coverage --coverageDirectory=output/coverage/jest"
   },
   "keywords": [
