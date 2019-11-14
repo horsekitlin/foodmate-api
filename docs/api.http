@@ -1,14 +1,14 @@
 ### 
 @domain = http://localhost:3000/v1/
 @contentType = application/json
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIsImlhdCI6MTU3MzYzODY4Nn0.qEqEwLl3N6jZj6OOPjSAQCySJFdJGJ1iZ5Oatkz5XWg
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjQsImlhdCI6MTU3MzcyNDgwOH0.4DqKBk-zsjlLsjB8eeQIm-eO86rD-p0fR_rEX-6PhqI
 
 ### 1.1 Login
 POST http://localhost:3000/v1/login
 Content-Type: {{contentType}}
 
 {
-  "phone_number": "0987654322",
+  "phone_number": "0987654324",
   "password": "a12345678"
 }
 
@@ -80,10 +80,10 @@ Authorization: Bearer {{token}}
 {
   "logo": "https://cdn.shopifycloud.com/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png",
   "description": "description",
-  "name": "event name",
+  "name": "11/14event name",
   "address": "台北市南港路三段",
   "payment_method": "PAY_BY_SELF",
-  "event_date": "2019-11-13 12:00:00",
+  "event_date": "2019-11-15 12:00:00",
   "validate_date": "2019-12-30 00:00:00",
   "tags": ["HELLO"],
   "google_json": {
