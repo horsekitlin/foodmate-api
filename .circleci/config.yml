@@ -39,7 +39,6 @@ jobs:
             ssh-keyscan $LINODE_IP >> ~/.ssh/know_hosts
             echo "ssh-keyscan"
             ssh root@$LINODE_IP
-            yes
             echo "SSH to VPS"
             $PASSWORD
             echo "SSH SUCCEED"
