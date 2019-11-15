@@ -42,9 +42,7 @@ jobs:
             ssh-keyscan $LINODE_IP >> ~/.ssh/know_hosts
             echo "ssh-keyscan"
             ssh  -o StrictHostKeyChecking=no root@$LINODE_IP
-      - run:
-          command: |
-            scd /var/www/foodmate-api
+            cd /var/www/foodmate-api
             git checkout -b Master
             git pull
             yarn install
