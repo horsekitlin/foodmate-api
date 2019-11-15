@@ -43,13 +43,12 @@ jobs:
             echo "ssh-keyscan"
             ssh  -o StrictHostKeyChecking=no root@$LINODE_IP
             echo "SSH SUCCEED"
-      - run:
-          command: |
-            ssh root@$LINODE_IP "cd /var/www/foodmate-api"
-            ssh root@$LINODE_IP "git checkout -b Master"
-            ssh root@$LINODE_IP "git pull"
-            ssh root@$LINODE_IP "yarn install"
-            ssh root@$LINODE_IP "pm2 start ecosystem.config.js"
+            cd /var/www/foodmate-api
+            git checkout -b Master
+            git pull
+            yarn install
+            pm2 start ecosystem.config.js
+            exit
             echo "UPDATE SUCCEED"
 
 
