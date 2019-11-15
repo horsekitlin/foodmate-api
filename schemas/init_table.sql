@@ -53,7 +53,6 @@ CREATE TABLE IF NOT EXISTS `events`
     `owner_id`  int(11) NOT NULL COMMENT 'mapping to users.uid',
     `budget`  int(11) NOT NULL,
     `max_member`  int(4) NOT NULL,
-    `member_count`  int(4) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`event_id`)

@@ -43,7 +43,7 @@ jobs:
             echo "ssh-keyscan"
             ssh  -o StrictHostKeyChecking=no root@$LINODE_IP <<"ENDSSH"
             cd /var/www/foodmate-api
-            git checkout -b Master
+            git checkout master
             git pull
             yarn install
             pm2 restart ecosystem.config.js

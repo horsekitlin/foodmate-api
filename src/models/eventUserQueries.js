@@ -45,6 +45,7 @@ module.exports.checkMemberInEvent = (uid, event_id) => {
 module.exports.getApplicationList = (event_id, uid) => {
   const sql = SQL`
   SELECT
+    event_users_id,
     event_users.event_id,
     event_users.uid,
     events.owner_id,
@@ -65,6 +66,30 @@ module.exports.getApplicationList = (event_id, uid) => {
     event_users.event_id = events.event_id
   WHERE
     event_users.event_id = ${event_id} and event_users.uid = ${uid} 
+  `;
+  return query(sql)
+}
+
+module.exports.updateJoinStatus = (event_users_id, stat) => {
+  const sql = SQL`
+  UPDATE
+    event_users
+  SET
+    stat = ${stat}
+  WHERE
+    event_users_id = ${event_users_id}
+  `;
+  return query(sql)
+}
+
+module.exports.getEventUser = (event_users_id) => {
+  const sql = SQL`
+  SELECT
+    *
+  FROM
+    event_users
+  WHERE
+    event_users_id = ${event_users_id}
   `;
   return query(sql)
 }
