@@ -37,15 +37,15 @@ jobs:
       - run: |
             echo "SSH to VPS"
             ssh-keyscan $LINODE_IP >> ~/.ssh/know_hosts
-            ssh  -o StrictHostKeyChecking=no  $LINODE_IP
             ssh root@$LINODE_IP
-            yes
             $PASSWORD
             echo "SSH SUCCEED"
+      - run: |
             cd /var/www/foodmate-api
             git checkout -b Master
             git pull
             yarn install
             pm2 start ecosystem.config.js
+            echo "UPDATE SUCCEED"
 
 
