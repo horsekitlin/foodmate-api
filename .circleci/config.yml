@@ -41,16 +41,15 @@ jobs:
           command: |
             ssh-keyscan $LINODE_IP >> ~/.ssh/know_hosts
             echo "ssh-keyscan"
-            ssh  -o StrictHostKeyChecking=no $LINODE_IP
-            echo "SSH to VPS"
+            ssh  -o StrictHostKeyChecking=no root@$LINODE_IP
             echo "SSH SUCCEED"
       - run:
           command: |
-            cd /var/www/foodmate-api
-            git checkout -b Master
-            git pull
-            yarn install
-            pm2 start ecosystem.config.js
+            ssh root@$LINODE_IP "cd /var/www/foodmate-api"
+            ssh root@$LINODE_IP "git checkout -b Master"
+            ssh root@$LINODE_IP "git pull"
+            ssh root@$LINODE_IP "yarn install"
+            ssh root@$LINODE_IP "pm2 start ecosystem.config.js"
             echo "UPDATE SUCCEED"
 
 
