@@ -34,3 +34,15 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       # run tests!
       # - run: yarn test
+      - run: |
+            echo "SSH to VPS"
+            ssh-keyscan $LINODE_IP >> ~/.ssh/know_hosts
+            ssh root@$LINODE_IP
+            echo "SSH SUCCEED"
+            cd /var/www/foodmate-api
+            git checkout -b Master
+            git pull
+            yarn install
+            pm2 start ecosystem.config.js
+
+
