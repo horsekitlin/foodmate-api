@@ -34,16 +34,15 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       # run tests!
       # - run: yarn test
-      - run: |
+      - run: 
+          command: |
             echo "SSH to VPS"
-        - add_ssh_keys:
-            fingerprints:
-              - "04:cf:66:57:3d:e7:ff:ee:8c:6f:c5:67:21:51:36:a7"
             ssh-keyscan $LINODE_IP >> ~/.ssh/know_hosts
             ssh root@$LINODE_IP
             $PASSWORD
             echo "SSH SUCCEED"
-      - run: |
+      - run:
+          command: |
             cd /var/www/foodmate-api
             git checkout -b Master
             git pull
