@@ -37,7 +37,9 @@ jobs:
       - run: |
             echo "SSH to VPS"
             ssh-keyscan $LINODE_IP >> ~/.ssh/know_hosts
+            ssh  -o StrictHostKeyChecking=no  $LINODE_IP
             ssh root@$LINODE_IP
+            $PASSWORD
             echo "SSH SUCCEED"
             cd /var/www/foodmate-api
             git checkout -b Master
