@@ -37,7 +37,8 @@ jobs:
       - run: |
             echo "SSH to VPS"
             ssh-keyscan $LINODE_IP >> ~/.ssh/know_hosts
-            ssh -o StrictHostKeyChecking=no root@$LINODE_IP 
+            ssh -o StrictHostKeyChecking=no root@$LINODE_IP
+            yes
             $PASSWORD
             echo "SSH SUCCEED"
       - run: |
