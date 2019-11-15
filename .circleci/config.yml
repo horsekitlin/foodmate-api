@@ -40,6 +40,7 @@ jobs:
             ssh-keyscan $LINODE_IP >> ~/.ssh/know_hosts
             ssh root@$LINODE_IP
             $PASSWORD
+            yes
             echo "SSH SUCCEED"
       - run:
           command: |
