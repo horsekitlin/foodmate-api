@@ -208,5 +208,3 @@ Authorization: Bearer {{token}}
 DELETE  http://localhost:3000/v1/events/2
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
-
-###
