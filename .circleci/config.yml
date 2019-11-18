@@ -21,8 +21,9 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "04:cf:66:57:3d:e7:ff:ee:8c:6f:c5:67:21:51:36:a7"
-      - command: |
-      curl -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_ID -d "&text=*開始部署*&parse_mode=Markdown"
+      - run:
+          command: |
+            curl -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_ID -d "&text=*開始部署*&parse_mode=Markdown"
 
 
       # Download and cache dependencies
