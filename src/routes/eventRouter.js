@@ -165,7 +165,7 @@ const updateJoinRequestShape = yup.object().shape({
   stat: yup.boolean().required('stat 不可為空'),
 });
 
-// 3.11 [PATCH] Approve Join Request
+// 3.11 [PATCH] Update Join Status
 
 router.patch('/:event_users_id/updateJoinStatus', async (req, res) => {
   try { 

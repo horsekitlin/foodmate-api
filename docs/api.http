@@ -194,7 +194,7 @@ Authorization: Bearer {{token}}
 
 ### 3.11 Update Join Status
 
-PATCH http://localhost:3000/v1/events/3/updateJoinStatus
+PATCH http://localhost:3000/v1/events/2/updateJoinStatus
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
