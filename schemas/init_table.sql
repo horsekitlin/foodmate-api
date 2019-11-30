@@ -55,10 +55,10 @@ CREATE TABLE IF NOT EXISTS `events` (
         `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY (`event_id`)
 ) ENGINE = InnoDB COLLATE = 'utf8_unicode_ci';
-
 /******************************************
  * 3: Create tables for event users
  ******************************************/
+
 CREATE TABLE IF NOT EXISTS `event_users` (
     `event_users_id` serial COMMENT 'event serial id',
     `event_id` int(11) NOT NULL COMMENT 'mapping to events.event_id',
@@ -70,7 +70,9 @@ CREATE TABLE IF NOT EXISTS `event_users` (
         uid,
         `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        PRIMARY KEY (`event_users_id`)
+        PRIMARY KEY (`event_users_id`),
+    `conversation_id` bigint unsigned comment '配發的聊天室ID'
+    after `owner_id`
 ) ENGINE = InnoDB COLLATE = 'utf8_unicode_ci';
 
 /******************************************
@@ -98,6 +100,7 @@ create table `friends`(
     `created_at` timestamp not null default current_timestamp comment "資料建立時間",
     `modified_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment "修改時間"
 ) ENGINE = InnoDB COLLATE = 'utf8_unicode_ci';
+
 
 /******************************************
  * 6: Create tables for Conversation
