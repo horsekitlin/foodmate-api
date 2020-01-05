@@ -57,7 +57,6 @@ module.exports.getEvent = (event_id) => {
       event_date,
       validate_date,
       max_member,
-      member_count,
       payment_method,
       budget,
       google_json,
@@ -96,7 +95,6 @@ module.exports.createEvent = (owner_id, payload) => {
       tags,
       google_json,
       max_member,
-      member_count,
       budget
     ) VALUES (
       ${payload.logo},
@@ -110,7 +108,6 @@ module.exports.createEvent = (owner_id, payload) => {
       ${JSON.stringify(payload.tags)},
       ${JSON.stringify(payload.google_json)},
       ${payload.max_member},
-      ${payload.member_count},
       ${payload.budget}
     )
   `;
@@ -133,7 +130,6 @@ module.exports.replaceEvent = (event_id, payload) => {
       tags = ${JSON.stringify(payload.tags)},
       google_json = ${JSON.stringify(payload.google_json)},
       max_member = ${payload.max_member},
-      member_count = ${payload.member_count},
       budget = ${payload.budget}
     WHERE
       event_id = ${event_id}

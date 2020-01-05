@@ -1,5 +1,6 @@
 ### 
 @domain = http://localhost:3000/v1/
+# @domain = http://foodmate-api.wayyeh.com:8990/v1
 @contentType = application/json
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjQsImlhdCI6MTU3MzcyNDgwOH0.4DqKBk-zsjlLsjB8eeQIm-eO86rD-p0fR_rEX-6PhqI
 
@@ -17,10 +18,10 @@ POST http://localhost:3000/v1/users/createUser
 Content-Type: {{contentType}}
 
 {
-  "email": "test5@aaa.bbb",
+  "email": "test1@aaa.bbb",
   "password": "a12345678",
   "re_password": "a12345678",
-  "phone_number": "0987654325"
+  "phone_number": "0987654321"
 }
 
 ### 1.5 Delete Account
@@ -71,6 +72,24 @@ GET http://localhost:3000/v1/users/checkDisplayName/test1
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
+### 3.1 Get Events parm:date=today&uid=3
+
+GET http://localhost:3000/v1/events?date=today&uid=3
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+### 3.2 Get Event Detail
+
+GET http://localhost:3000/v1/events/11
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+### 3.3 Get Application List && 3.4 Get Applicants List && 3.5 Get Participators
+
+GET http://localhost:3000/v1/events/11/applicationList?uid=2
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
 
 ### 3.6 Create Event
 POST http://localhost:3000/v1/events
@@ -114,27 +133,17 @@ Authorization: Bearer {{token}}
   },
   "owner_id": 1,
   "budget": 100,
-  "max_member": 10,
-  "member_count": 0
+  "max_member": 10
 }
 
-### 3.1 Get Events parm:date=today&uid=3
-
-GET http://localhost:3000/v1/events?date=today&uid=3
+### 3.7 Join Event /:event_id/joinEvent
+POST  http://localhost:3000/v1/events/11/joinEvent
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
-### 3.2 Get Event Detail
-
-GET http://localhost:3000/v1/events/1
-Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
-
-### 3.3 Get Application List && 3.4 Get Applicants List
-
-GET http://localhost:3000/v1/events/11/applicationList?uid=2
-Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+{
+  "comment": "hello world"
+}
 
 ### 3.8 Update Event
 
@@ -179,23 +188,23 @@ Authorization: Bearer {{token}}
   },
   "owner_id": 1,
   "budget": 100,
-  "max_member": 10,
-  "member_count": 1
+  "max_member": 10
 }
+
+
+### 3.11 Update Join Status
+
+PATCH http://localhost:3000/v1/events/2/updateJoinStatus
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "stat": false
+}
+
 
 ### 刪除活動
 
 DELETE  http://localhost:3000/v1/events/2
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
-
-### 3.7 Join Event /:event_id/joinEvent
-POST  http://localhost:3000/v1/events/11/joinEvent
-Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
-
-{
-  "comment": "hello world"
-}
-
-###
