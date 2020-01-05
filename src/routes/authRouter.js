@@ -17,8 +17,12 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
   try {
     await loginRequestShape.validate(req.body);
-    passport.authenticate('local', (err, {password_hash, ...user}) => {
+    passport.authenticate('local', (err, payload) => {
+      console.log("TCL: err", err)
       if (err) return responseErrWithMsg(res, err.message);
+      const {password_hash, ...user} = payload;
+
+      
       const signInfo = pick(user, ['uid']);
       const token = generateToken(signInfo);
 

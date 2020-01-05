@@ -8,7 +8,7 @@ POST http://localhost:3000/v1/login
 Content-Type: {{contentType}}
 
 {
-  "phone_number": "0987654324",
+  "phone_number": "0987654325",
   "password": "a12345678"
 }
 

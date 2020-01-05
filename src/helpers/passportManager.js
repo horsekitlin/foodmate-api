@@ -14,6 +14,7 @@ const validateUserAndPassword = (user, password) => {
   if(isEmpty(user)) return {validated: false};
 
   const hashPassword = saltHashPassword(password);
+  if(isEmpty(user)) return {validated: false};
   if(hashPassword !== user.password_hash) return {validated: false};
 
   return {validated: true};
@@ -28,10 +29,14 @@ passport.use(
     async (phone_number, password, done) => {
 
       const user = await userQueries.getUserByPhone(phone_number, true);
+      const message = '使用者不存在或密碼錯誤';
+      const notfoundError = new Error(message);
+
+      if(isEmpty(user)) {
+        return done(notfoundError, null, {message});
+      }
       const {validated} = validateUserAndPassword(user, password);
       if(!validated) {
-        const message = '使用者不存在或密碼錯誤';
-        const notfoundError = new Error(message);
         return done(notfoundError, null, {message});
       }
       return done(null, user);

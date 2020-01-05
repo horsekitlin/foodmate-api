@@ -2,7 +2,8 @@ const SQL = require('sql-template-strings');
 const { saltHashPassword } = require("../helpers/utils");
 const { query } = require('./mysqlConnectionPool');
 
-const parseUser = user => ({
+const parseUser = (user = {}) => 
+({
   ...user,
   is_notification: Boolean(user.is_notification),
   is_camera: Boolean(user.is_camera),
@@ -18,7 +19,7 @@ module.exports.getUserBy = (uid, withPasswordField = false) => {
       users
     WHERE uid=${uid}
   `;
-  return query(sql).then(([user]) => {
+  return query(sql).then(([user = {}]) => {
     return withPasswordField ? user : { ...user, password_hash: undefined };
   }).then(parseUser);
 };
