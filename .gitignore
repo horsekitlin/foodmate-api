@@ -62,3 +62,4 @@ typings/
 
 junit.xml
 output
+package-lock.json
