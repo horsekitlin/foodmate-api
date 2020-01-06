@@ -29,9 +29,6 @@ router.post('/createUser', async (req, res) => {
       return responseErrWithMsg(res, "密碼不一致，請重新輸入");
     }
     const [findUser] = await userQueries.checkUserByEmailAndPhone(email, phone_number)
-    console.log(email)
-    console.log(phone_number)
-    console.log(findUser.tf)
     if (findUser.tf === 1) {
       return responseErrWithMsg(res, "建立使用者失敗，Email or phone_number 已重複");
     } 
