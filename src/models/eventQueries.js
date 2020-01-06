@@ -23,7 +23,6 @@ module.exports.getEvents = (date, uid) => {
     queryArray.push(`owner_id = ${uid}`)
   }
   const finalQueryArray = queryArray.join(" AND ")
-  console.log(finalQueryArray)
   const sql = SQL`
     SELECT
       event_id,

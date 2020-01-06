@@ -170,7 +170,6 @@ router.get("/checkDisplayName/:display_name", async (req, res) => {
   try {
     const { display_name } = req.params;
     const [checkUserResult] = await userQueries.checkUserByName(display_name);
-    console.log(checkUserResult)
     if (checkUserResult.tf === 1){
       return responseOk(res, { success: true, is_repeat: true, message: "不好意思這個名稱已經有人使用囉" })
     } else { 

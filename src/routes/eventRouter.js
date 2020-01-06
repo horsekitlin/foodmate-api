@@ -13,11 +13,8 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   const date = req.query.date;
   const uid = req.query.uid;
-  console.log(date)
-  console.log(uid)
   try {
     const events = await eventQueries.getEvents(date, uid);
-    console.log('query completed')
     return responseOk(res, { success: true, data: { events } });
   } catch (error) {
     return responseErrWithMsg(res, error.message);
@@ -58,11 +55,8 @@ const eventRequestShape = yup.object().shape({
 router.get('/:event_id/applicationList', async (req, res) => {
   const event_id = req.params.event_id;
   const uid = req.query.uid;
-  console.log(event_id)
-  console.log(uid)
   try {
     const events = await eventUserQueries.getApplicationList(event_id, uid);
-    console.log('query completed')
     return responseOk(res, { success: true, data: { events } });
   } catch (error) {
     return responseErrWithMsg(res, error.message);
@@ -103,8 +97,6 @@ router.post('/:event_id/joinEvent', async (req, res) => {
 
     const { event_id } = params;
     const event = await eventQueries.getEvent(event_id);
-    console.log(event_id)
-    console.log(uid)
     const [findMember] = await eventUserQueries.checkMemberInEvent(uid, event_id);
     if( findMember.tf === 1) {
       return responseErrWithMsg(res, '您已經在活動內');
@@ -172,12 +164,9 @@ router.patch('/:event_users_id/updateJoinStatus', async (req, res) => {
     await updateJoinRequestShape.validate(req.body);
     const {stat} = req.body;
     const {event_users_id} = req.params;
-    console.log(event_users_id)
-    console.log(stat)
     const result = await eventUserQueries.updateJoinStatus(event_users_id, stat);
     if (result.constructor.name === "OkPacket"){
       const event = await eventUserQueries.getEventUser(event_users_id);
-      console.log('query completed')
       return responseOk(res, { success: true, data: { event } });
     }
   } catch (error) {

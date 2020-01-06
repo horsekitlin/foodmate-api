@@ -18,7 +18,6 @@ router.post('/', async (req, res, next) => {
   try {
     await loginRequestShape.validate(req.body);
     passport.authenticate('local', (err, payload) => {
-      console.log("TCL: err", err)
       if (err) return responseErrWithMsg(res, err.message);
       const {password_hash, ...user} = payload;
 
