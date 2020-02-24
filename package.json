@@ -34,7 +34,7 @@
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "dotenv": "^8.0.0",
-    "express": "~4.16.1",
+    "express": "^4.17.1",
     "express-session": "^1.16.2",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
@@ -46,6 +46,10 @@
     "promise-mysql": "^4.0.4",
     "randomstring": "^1.1.5",
     "sql-template-strings": "^2.2.2",
+    "swagger": "^0.7.5",
+    "swagger-jsdoc": "^3.4.0",
+    "swagger-ui": "^3.25.0",
+    "swagger-ui-express": "^4.1.2",
     "yup": "^0.27.0"
   },
   "devDependencies": {

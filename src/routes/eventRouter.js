@@ -1,10 +1,8 @@
 const express = require('express');
 const yup = require('yup');
-const isEmpty = require('lodash/isEmpty');
 const { responseOk, responseErrWithMsg } = require('../helpers/response');
 const eventQueries = require('../models/eventQueries');
 const eventUserQueries = require('../models/eventUserQueries');
-const moment = require("moment")
 
 const router = express.Router();
 
@@ -158,6 +156,30 @@ router.delete('/:event_id', async (req, res) => {
       return responseOk(res, { success: true });
     }
     return responseErrWithMsg(res, '編輯活動失敗');
+  } catch (error) {
+    return responseErrWithMsg(res, error.message);
+  }
+});
+
+const updateJoinRequestShape = yup.object().shape({
+  stat: yup.boolean().required('stat 不可為空'),
+});
+
+// 3.11 [PATCH] Update Join Status
+
+router.patch('/:event_users_id/updateJoinStatus', async (req, res) => {
+  try { 
+    await updateJoinRequestShape.validate(req.body);
+    const {stat} = req.body;
+    const {event_users_id} = req.params;
+    console.log(event_users_id)
+    console.log(stat)
+    const result = await eventUserQueries.updateJoinStatus(event_users_id, stat);
+    if (result.constructor.name === "OkPacket"){
+      const event = await eventUserQueries.getEventUser(event_users_id);
+      console.log('query completed')
+      return responseOk(res, { success: true, data: { event } });
+    }
   } catch (error) {
     return responseErrWithMsg(res, error.message);
   }
