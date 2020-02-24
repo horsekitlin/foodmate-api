@@ -1,5 +1,5 @@
 ### 
-# @domain = http://localhost:3000/v1/
+# @domain = http://localhost:8990/v1/
 @domain = http://foodmate.tw:8990/v1
 @contentType = application/json
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjQsImlhdCI6MTU3MzcyNDgwOH0.4DqKBk-zsjlLsjB8eeQIm-eO86rD-p0fR_rEX-6PhqI
@@ -14,7 +14,7 @@ Content-Type: {{contentType}}
 }
 
 ### 1.4 Create User
-POST http://localhost:3000/v1/users/createUser
+POST http://localhost:8990/v1/users/createUser
 Content-Type: {{contentType}}
 
 {
@@ -25,7 +25,7 @@ Content-Type: {{contentType}}
 }
 
 ### 1.5 Delete Account
-PUT http://localhost:3000/v1/users/disableUser/1
+PUT http://localhost:8990/v1/users/disableUser/uid=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
@@ -34,7 +34,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 2.1 Get User Info
-GET http://localhost:3000/v1/users/info/3
+GET http://localhost:8990/v1/users/info/uid=6
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
@@ -63,7 +63,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 2.6 Get User Detail
-GET http://localhost:3000/v1/users/2
+GET http://localhost:8990/v1/users/uid=6
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 

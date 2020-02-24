@@ -59,7 +59,7 @@ const disableUserRequestShape = yup.object().shape({
   is_deleted: yup.boolean().required("is_deleted 不得為空")
 });
 
-router.put('/disableUser/:uid', async (req, res) => {
+router.put('/disableUser/uid=:uid', async (req, res) => {
   try {
     await disableUserRequestShape.validate(req.body);
     const { 
@@ -80,22 +80,27 @@ router.put('/disableUser/:uid', async (req, res) => {
 
 // 2.1 Get User Information
 
-router.get("/info/:uid", async (req, res) => {
-  try {
-    const { uid } = req.params;
-    const user = await userQueries.getUserBy(uid);
-    return responseOk(res, {
-      success: true,
-      info: {
-        display_name: user.display_name,
-        photo_url: user.photo_url,
-        job_title: user.job_title,
-        rate: user.rate,
-        info: user.info
-      }
-    });
-  } catch (error) {
-    return responseErrWithMsg(res, error.message);
+router.get("/info/uid=:uid", async (req, res) => {
+  const findUser = await userQueries.checkUserByUid(req.params.uid)
+  console.log(findUser)
+  if (findUser[0].tf === 1) {
+    try {
+      const user = await userQueries.getUserBy(req.params.uid);
+      return responseOk(res, {
+        success: true,
+        info: {
+          display_name: user.display_name,
+          photo_url: user.photo_url,
+          job_title: user.job_title,
+          rate: user.rate,
+          info: user.info
+        }
+      });
+    } catch (error) {
+      return responseErrWithMsg(res, error.message);
+    }
+  } else {
+    return res.status(404).json({"message":"查無此會員"})
   }
 });
 
@@ -109,7 +114,7 @@ const updateUserInfoRequestShape = yup.object().shape({
   info: yup.string().required('info 不可為空')
 });
 
-router.put('/updateUserInfo/:uid', async (req, res) => {
+router.put('/updateUserInfo/uid=:uid', async (req, res) => {
   try {
     await updateUserInfoRequestShape.validate(req.body);
     const { 
@@ -136,7 +141,7 @@ const updateUserSettingRequestShape = yup.object().shape({
   is_album: yup.boolean().required("is_album 不得為空")
 });
 
-router.put('/updateUserSetting/:uid', async (req, res) => {
+router.put('/updateUserSetting/uid=:uid', async (req, res) => {
   try {
     await updateUserSettingRequestShape.validate(req.body);
     const { 
@@ -157,13 +162,19 @@ router.put('/updateUserSetting/:uid', async (req, res) => {
 
 // 2.6 [GET] Get User Detail
 
-router.get("/:uid", async (req, res) => {
-  try {
-    const { uid } = req.params;
-    const user = await userQueries.getUserBy(uid);
-    return responseOk(res, { success: true, data: user })
-  } catch (error) {
-    return responseErrWithMsg(res, error.message);
+router.get("/uid=:uid", async (req, res) => {
+  const findUser = await userQueries.checkUserByUid(req.params.uid)
+  console.log(findUser)
+  if (findUser[0].tf === 1) {
+    try {
+      const { uid } = req.params;
+      const user = await userQueries.getUserBy(uid);
+      return responseOk(res, { success: true, data: user })
+    } catch (error) {
+      return responseErrWithMsg(res, error.message);
+    }
+  } else {
+    return res.status(404).json({"message":"查無此會員"})
   }
 });
 

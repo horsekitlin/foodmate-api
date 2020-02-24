@@ -8,6 +8,7 @@ const parseUser = user => ({
   is_camera: Boolean(user.is_camera),
   is_album: Boolean(user.is_album),
   disabled: Boolean(user.disabled),
+  is_deleted: Boolean(user.is_deleted)
 });
 
 module.exports.getUserBy = (uid, withPasswordField = false) => {
@@ -50,6 +51,15 @@ module.exports.checkUserByName = (display_name) => {
     SELECT if(count(*)>=1 ,1 ,0) as tf
     FROM users
     WHERE display_name = ${display_name}
+  `;
+  return query(sql)
+};
+
+module.exports.checkUserByUid = (uid) => {
+  const sql = SQL`
+    SELECT if(count(*)>=1 ,1 ,0) as tf
+    FROM users
+    WHERE uid = ${uid}
   `;
   return query(sql)
 };
