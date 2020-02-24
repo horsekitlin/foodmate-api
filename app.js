@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 // app.use(session({
 //   store: new RedisStore({
 //     host: REDIS_HOST,
@@ -41,9 +42,10 @@ const eventRouter = require('./src/routes/eventRouter');
 app.use('/v1/login', authRouter);
 app.use('/v1/users', userRouter);
 app.use('/v1/events', jwtAuthorizationMiddleware, eventRouter);
+app.use('/static', Express.static('public'));
 
-http.listen(process.env.PORT || 3000, function () {
-  console.log('listening on *:3000');
+http.listen(process.env.PORT || 8990, function () {
+  console.log('listening on *:8990');
 });
 
 //Nodejs 奇怪的錯誤防止Process 死掉

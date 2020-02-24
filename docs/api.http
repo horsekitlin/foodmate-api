@@ -1,15 +1,15 @@
 ### 
-@domain = http://localhost:3000/v1/
-# @domain = http://foodmate-api.wayyeh.com:8990/v1
+# @domain = http://localhost:3000/v1/
+@domain = http://foodmate.tw:8990/v1
 @contentType = application/json
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjQsImlhdCI6MTU3MzcyNDgwOH0.4DqKBk-zsjlLsjB8eeQIm-eO86rD-p0fR_rEX-6PhqI
 
 ### 1.1 Login
-POST http://localhost:3000/v1/login
+POST https://api.foodmate.tw/v1/login
 Content-Type: {{contentType}}
 
 {
-  "phone_number": "0987654324",
+  "phone_number": "0987654321",
   "password": "a12345678"
 }
 
