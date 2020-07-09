@@ -5,8 +5,16 @@ const express = require('express');
 const serveStatic = require('serve-static');
 const path = require('path');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const passport = require('passport');
 const uuid = require('uuid');
+const dotenv = require('dotenv');
 const sccBrokerClient = require('scc-broker-client');
+
+dotenv.config();
+
+require("./helpers/passportManager");
 
 const ENVIRONMENT = process.env.ENV || 'dev';
 const SOCKETCLUSTER_PORT = process.env.SOCKETCLUSTER_PORT || 8000;
@@ -44,7 +52,23 @@ if (ENVIRONMENT === 'dev') {
   // available formats.
   expressApp.use(morgan('dev'));
 }
+
 expressApp.use(serveStatic(path.resolve(__dirname, 'public')));
+
+expressApp.use(cors());
+expressApp.use(bodyParser.json());
+expressApp.use(bodyParser.urlencoded({ extended: false }));
+expressApp.use(passport.initialize());
+expressApp.use(passport.session());
+
+const authRouter = require('./routes/authRouter');
+const userRouter = require('./routes/userRouter');
+const eventRouter = require('./routes/eventRouter');
+const { jwtAuthorizationMiddleware } = require('./helpers/passportManager');
+
+expressApp.use('/v1/login', authRouter);
+expressApp.use('/v1/users', userRouter);
+expressApp.use('/v1/events', jwtAuthorizationMiddleware, eventRouter);
 
 // Add GET /health-check express route
 expressApp.get('/health-check', (req, res) => {
