@@ -31,6 +31,10 @@
     "socketcluster-server": "^16.0.0",
     "sql-template-strings": "^2.2.2",
     "uuid": "^3.3.2",
+    "swagger": "^0.7.5",
+    "swagger-jsdoc": "^3.4.0",
+    "swagger-ui": "^3.25.0",
+    "swagger-ui-express": "^4.1.2",
     "yup": "^0.29.1"
   },
   "keywords": [
@@ -41,9 +45,38 @@
     "scalable"
   ],
   "readmeFilename": "README.md",
+  "license": "ISC",
+  "jest": {
+    "testURL": "http://localhost/",
+    "collectCoverageFrom": [
+      "routes/*.js",
+      "!src/app.js",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
+  },
   "scripts": {
     "start": "node server.js",
     "start:watch": "./node_modules/nodemon/bin/nodemon.js server.js",
-    "start:docker": "./node_modules/nodemon/bin/nodemon.js /usr/src/app/server.js"
+    "start:docker": "./node_modules/nodemon/bin/nodemon.js /usr/src/app/server.js",
+    "test": "test",
+    "test:watch": "test --watch test --color",
+    "test:CI": "CI=true jest test --color --reporters=jest-junit --forceExit --runInBand --coverage --coverageDirectory=output/coverage/jest"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "babel-core": "7.0.0-bridge.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jest-jenkins-reporter": "^1.0.2",
+    "jest-junit": "^6.4.0",
+    "supertest": "^4.0.2"
   }
 }
