@@ -1,0 +1,358 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Foodmate APP 專用 API",
+    "version": "1.0.0",
+    "title": "Foodmate-APP-Api"
+  },
+  "host": "api.wayyeh.com",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "login",
+      "description": "會員登入"
+    },
+    {
+      "name": "users",
+      "description": "會員相關的 CRUD"
+    },
+    {
+      "name": "event",
+      "description": "活動相關的 CRUD"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "1.1 會員登入",
+        "description": "使用帳號與密碼進行登入",
+        "operationId": "login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "使用帳號與密碼進行登入",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login success"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/createUser": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "1.4 會員註冊",
+        "description": "新會員註冊",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "新會員註冊",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "註冊成功"
+          },
+          "301": {
+            "description": "請使用https"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/users/info/uid={uid}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "2.1 取得會員資料",
+        "description": "",
+        "operationId": "getUserByUid",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "使用 UID 取得會員資料",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "資料取得成功",
+            "schema": {
+              "$ref": "#/definitions/userInfo"
+            }
+          },
+          "404": {
+            "description": "查無此會員"
+          }
+        }
+      }
+    },
+    "/users/disableUser/uid={uid}": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Updated user delete status",
+        "description": "修改會員刪除狀態",
+        "operationId": "updateUserDeleteStatus",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "使用 UID 修改刪除狀態",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "修改is_deleted",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateUserDeleteStatus"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/uid={uid}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "summary": "2.6 取得會員所有資料（詳情）",
+        "description": "",
+        "operationId": "getUserDetailByUid",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "使用 UID 取得會員所有資料",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "資料取得成功",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "查無此會員"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "login": {
+      "type": "object",
+      "properties": {
+        "phone_number": {
+          "type": "string",
+          "description": "手機號碼"
+        },
+        "password": {
+          "type": "string",
+          "description": "會員密碼"
+        }
+      }
+    },
+    "createUser": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "手機號碼"
+        },
+        "password": {
+          "type": "string",
+          "description": "會員密碼"
+        },
+        "re_password": {
+          "type": "string",
+          "description": "會員密碼"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "會員密碼"
+        }
+      }
+    },
+    "userInfo": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "info": {
+          "type": "object",
+          "properties": {
+            "display_name": {
+              "type": "string"
+            },
+            "photo_url": {
+              "type": "string"
+            },
+            "job_title": {
+              "type": "string"
+            },
+            "rate": {
+              "type": "integer"
+            },
+            "info": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "updateUserDeleteStatus": {
+      "type": "object",
+      "properties": {
+        "is_deleted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "uid": {
+              "type": "integer"
+            },
+            "email": {
+              "type": "string"
+            },
+            "phone_number": {
+              "type": "string"
+            },
+            "display_name": {
+              "type": "string"
+            },
+            "gender": {
+              "type": "string"
+            },
+            "job_title": {
+              "type": "string"
+            },
+            "soul_food": {
+              "type": "integer"
+            },
+            "info": {
+              "type": "string"
+            },
+            "photo_url": {
+              "type": "string"
+            },
+            "is_notification": {
+              "type": "boolean"
+            },
+            "is_camera": {
+              "type": "boolean"
+            },
+            "is_album": {
+              "type": "boolean"
+            },
+            "is_deleted": {
+              "type": "boolean"
+            },
+            "rate": {
+              "type": "integer"
+            },
+            "disabled": {
+              "type": "boolean"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
