@@ -1,70 +1,37 @@
 {
-  "name": "chat_room",
+  "name": "socketcluster-sample",
+  "description": "A sample SocketCluster app",
   "version": "1.0.0",
-  "description": "a simple chat room",
-  "main": "index.js",
-  "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "test": "test",
-    "test:watch": "test --watch test --color",
-    "test:CI": "CI=true jest test --color --reporters=jest-junit --forceExit --runInBand --coverage --coverageDirectory=output/coverage/jest"
+  "contributors": [
+    {
+      "name": "Jonathan Gros-Dubois",
+      "email": "grosjona@yahoo.com.au"
+    }
+  ],
+  "dependencies": {
+    "scc-broker-client": "^8.0.0",
+    "socketcluster-client": "^16.0.1",
+    "socketcluster-server": "^16.0.0",
+    "connect": "^3.6.6",
+    "eetase": "^4.0.0",
+    "express": "^4.16.3",
+    "morgan": "^1.7.0",
+    "nodemon": "^1.18.9",
+    "sc-errors": "^2.0.1",
+    "serve-static": "^1.13.2",
+    "uuid": "^3.3.2"
   },
   "keywords": [
-    "chat"
+    "websocket",
+    "server",
+    "realtime",
+    "cluster",
+    "scalable"
   ],
-  "author": "huli",
-  "license": "ISC",
-  "jest": {
-    "testURL": "http://localhost/",
-    "collectCoverageFrom": [
-      "routes/*.js",
-      "!src/app.js",
-      "!<rootDir>/node_modules/"
-    ],
-    "coverageReporters": [
-      "text",
-      "html"
-    ]
-  },
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "connect-redis": "^3.4.1",
-    "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "debug": "~2.6.9",
-    "dotenv": "^8.0.0",
-    "express": "^4.17.1",
-    "express-session": "^1.16.2",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
-    "moment": "^2.24.0",
-    "morgan": "^1.9.1",
-    "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "promise-mysql": "^4.0.4",
-    "randomstring": "^1.1.5",
-    "sql-template-strings": "^2.2.2",
-    "swagger": "^0.7.5",
-    "swagger-jsdoc": "^3.4.0",
-    "swagger-ui": "^3.25.0",
-    "swagger-ui-express": "^4.1.2",
-    "yup": "^0.27.0"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/node": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/register": "^7.4.4",
-    "babel-core": "7.0.0-bridge.0",
-    "dotenv": "^8.0.0",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "jest-jenkins-reporter": "^1.0.2",
-    "jest-junit": "^6.4.0",
-    "nodemon": "^1.19.1",
-    "supertest": "^4.0.2"
+  "readmeFilename": "README.md",
+  "scripts": {
+    "start": "node server.js",
+    "start:watch": "./node_modules/nodemon/bin/nodemon.js server.js",
+    "start:docker": "./node_modules/nodemon/bin/nodemon.js /usr/src/app/server.js"
   }
 }
